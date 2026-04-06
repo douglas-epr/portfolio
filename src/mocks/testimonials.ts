@@ -1,0 +1,58 @@
+import { Testimonial } from '@/types';
+
+export const testimonials: Testimonial[] = [
+  {
+    id: 't1',
+    author: 'Bryan Cassady',
+    company: 'Global Entrepreneurship Alliance',
+    photo: '/images/bryan cassady.jpeg',
+    rating: 5,
+    text: "As the Director of the Global Entrepreneurship Alliance, I'm proud to recommend Douglas Gouveia. If you are looking for a good developer and someone able to manage projects so they get done, he is someone I can strongly recommend. Over the last 2 years Douglas worked almost 18 months. The work he finished is impressive. Douglas consistently surprised me with his tenacity, and willingness to do whatever it takes to get something done. He was professional and always a good team player. What I especially liked about Douglas is his willingness to take responsibility when things went wrong or needed to be improved. He is someone a company, a team can count on.",
+    date: 'Jan 2023',
+  },
+  {
+    id: 't2',
+    author: 'Aija Peltola',
+    company: 'Simplified',
+    photo: '/images/aija peltola.jpeg',
+    rating: 5,
+    text: "I can warmly recommend Douglas for software projects especially built with Bubble.io. The biggest strength of Douglas is his deep technical and business logic understanding. He works very hard to make sure the software is done by the best of his abilities. Douglas is also a fast learner and is constantly improving his skills. We in Finland work with trust and honesty, and Douglas has for sure proven his reliability.",
+    date: 'Jun 2023',
+  },
+  {
+    id: 't3',
+    author: 'Felipe Thomaz Pedroni',
+    company: 'Bivrost',
+    photo: '/images/felipe pedroni.jpeg',
+    rating: 5,
+    text: "I had the opportunity to work with Douglas on a relatively complex project involving full-stack development, payment API integrations, and non-trivial business logic. I can say with confidence that he is the type of developer who truly solves problems. Douglas possesses a trait worth more than any specific tech stack: autonomy. He doesn't just execute tasks — he understands the problem as a whole, asks the right questions, proposes improvements, and follows through until he finds a solid solution. Another strong suit is his product-minded thinking and critical sense. He doesn't simply bow to pressure for deliveries that lack a technical foundation. I have also seen him take over problematic systems and bring order to the house. In short, Douglas is a developer with an ownership mentality, strong execution capabilities, and a rare combination of autonomy, product vision, and technical resilience.",
+    date: 'Jan 2024',
+  },
+  {
+    id: 't4',
+    author: 'Filippo Pavone',
+    company: 'Sales ABX',
+    photo: '/images/filippo pavone.jpeg',
+    rating: 5,
+    text: "Douglas is an exceptional developer who possesses a rare ability to bridge the gap between technical complexity and business clarity. At Sales ABX, he took our vision and translated it into a sophisticated, scalable web application using his expert-level Bubble.io skills. His background in Production Engineering is evident in the rigor he applies to backend architecture and API integrations. He doesn't just build apps; he architects enterprise-grade solutions at incredible speed.",
+    date: 'May 2025',
+  },
+  {
+    id: 't5',
+    author: 'Pedro Duarte',
+    company: 'Befree Academy',
+    photo: '/images/pedro duarte.jpeg',
+    rating: 5,
+    text: "Working with Douglas was a game-changer for our platform's development. As a Certified Senior Bubble Developer, he handles intricate code-like logic and custom states that most developers find daunting. He moved us from a simple MVP to a high-performance system capable of handling thousands of users without breaking a sweat. His UI/UX design competency ensured that the final product was not only functional but also intuitive and highly responsive.",
+    date: 'Jan 2026',
+  },
+  {
+    id: 't6',
+    author: 'Ranjit Bhinge',
+    company: 'Blur Studio',
+    photo: '/images/ranjit bhinge.jpeg',
+    rating: 5,
+    text: "As our Operations Manager and Lead Developer at Blur Studio, Douglas has been instrumental in our operational leadership. He revolutionized our internal workflows by architecting our Company OS and a high-level Project Management System. His ownership mentality is clear in how he manages talent pools, SOPs, and OKRs while simultaneously deploying cutting-edge apps using Claude Code and Lovable. He is a true multidisciplinary engineer who delivers consistent, coherent results across every phase of the project lifecycle.",
+    date: 'Jan 2026',
+  },
+];

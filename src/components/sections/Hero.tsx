@@ -141,7 +141,7 @@ export function Hero() {
               </MagneticElement>
               <MagneticElement
                 as="a"
-                href="/Douglas_Gouveia_CV.pdf"
+                href="/Douglas-Gouveia-CV.pdf"
                 download
                 strength={0.4}
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-slate-200 border border-white/10 hover:border-white/20 text-sm transition-all duration-200"

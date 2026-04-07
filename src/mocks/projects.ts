@@ -58,7 +58,6 @@ export const projects: Project[] = [
     ],
     imageUrl:
       'https://df4a82bcbf6733b3841743cba7039857.cdn.bubble.io/f1744813885380x828066367961456600/Captura%20de%20tela%202025-04-15%20114251.png?_gl=1*1yzq527*_gcl_aw*R0NMLjE3Njk0NTA0MTMuQ2owS0NRaUF2dHpMQmhDUEFSSXNBTHdoeGRxRThTYUJVN2x2eVczMmZsekRYdTZOZzEwZVRkdU5Hd0JSUll6MURnbzRKTEJkUHBQWkplNGFBbFRCRUFMd193Y0I.*_gcl_au*MTUxODI2NjY2MS4xNzc0MDI2OTk1*_ga*MTkxNjQzNDg2Mi4xNzI0MTI1OTM0*_ga_BFPVR2DEE2*czE3NzU0ODQ0ODAkbzEyNyRnMSR0MTc3NTQ4NTcyOCRqMzEkbDAkaDA.',
-    websiteUrl: 'https://salesabx.io/',
     youtubeUrls: ['https://youtu.be/PSBA-J9BK2o'],
     featured: true,
   },
@@ -79,7 +78,7 @@ export const projects: Project[] = [
     tools: ['Bubble', 'OpenAI API', 'Gemini API'],
     imageUrl:
       'https://df4a82bcbf6733b3841743cba7039857.cdn.bubble.io/f1775499980138x618966962464180500/Captura%20de%20tela%202026-04-06%20152609.png?_gl=1*16i3gcx*_gcl_aw*R0NMLjE3Njk0NTA0MTMuQ2owS0NRaUF2dHpMQmhDUEFSSXNBTHdoeGRxRThTYUJVN2x2eVczMmZsekRYdTZOZzEwZVRkdU5Hd0JSUll6MURnbzRKTEJkUHBQWkplNGFBbFRCRUFMd193Y0I.*_gcl_au*MTUxODI2NjY2MS4xNzc0MDI2OTk1*_ga*MTkxNjQzNDg2Mi4xNzI0MTI1OTM0*_ga_BFPVR2DEE2*czE3NzU0ODQ0ODAkbzEyNyRnMSR0MTc3NTQ4NTcyOCRqMzEkbDAkaDA.',
-    websiteUrl: 'https://blurapps.com/projects',
+    websiteUrl: 'https://blurapps.com/version-test/signin',
     youtubeUrls: ['https://youtu.be/7QKx8B0HLkA'],
     featured: true,
   },
@@ -100,8 +99,7 @@ export const projects: Project[] = [
     tools: ['Figma Make', 'Bubble', 'Stripe API', 'OpenAI API'],
     imageUrl:
       'https://df4a82bcbf6733b3841743cba7039857.cdn.bubble.io/f1763487219305x839665338173578600/WhatsApp%20Image%202025-11-18%20at%2014.27.45.jpeg?_gl=1*r0qgne*_gcl_aw*R0NMLjE3Njk0NTA0MTMuQ2owS0NRaUF2dHpMQmhDUEFSSXNBTHdoeGRxRThTYUJVN2x2eVczMmZsekRYdTZOZzEwZVRkdU5Hd0JSUll6MURnbzRKTEJkUHBQWkplNGFBbFRCRUFMd193Y0I.*_gcl_au*MTUxODI2NjY2MS4xNzc0MDI2OTk1*_ga*MTkxNjQzNDg2Mi4xNzI0MTI1OTM0*_ga_BFPVR2DEE2*czE3NzU0ODQ0ODAkbzEyNyRnMSR0MTc3NTQ4NTcyOCRqMzEkbDAkaDA.',
-    websiteUrl:
-      'https://elysianblue.bubbleapps.io/version-test/api/1.1/mobile/preview?preview_view=Home',
+    websiteUrl: 'https://karate-margin-83270676.figma.site/',
     youtubeUrls: ['https://youtu.be/0ZzBTEVilqw'],
     featured: true,
   },
@@ -143,7 +141,6 @@ export const projects: Project[] = [
     tools: ['Bubble', 'Stripe API', 'Asaas API'],
     imageUrl:
       'https://df4a82bcbf6733b3841743cba7039857.cdn.bubble.io/f1744814572478x784456630870354700/Captura%20de%20tela%202025-04-15%20120050.png?_gl=1*105fwx9*_gcl_aw*R0NMLjE3Njk0NTA0MTMuQ2owS0NRaUF2dHpMQmhDUEFSSXNBTHdoeGRxRThTYUJVN2x2eVczMmZsekRYdTZOZzEwZVRkdU5Hd0JSUll6MURnbzRKTEJkUHBQWkplNGFBbFRCRUFMd193Y0I.*_gcl_au*MTUxODI2NjY2MS4xNzc0MDI2OTk1*_ga*MTkxNjQzNDg2Mi4xNzI0MTI1OTM0*_ga_BFPVR2DEE2*czE3NzU0ODQ0ODAkbzEyNyRnMSR0MTc3NTQ4NTcyOCRqMzEkbDAkaDA.',
-    websiteUrl: 'https://bivrost.com.br/',
     youtubeUrls: ['https://youtu.be/EcbRdsw718o'],
     featured: true,
   },
@@ -164,7 +161,6 @@ export const projects: Project[] = [
     tools: ['Bubble', 'Stripe API'],
     imageUrl:
       'https://df4a82bcbf6733b3841743cba7039857.cdn.bubble.io/f1744814843196x621178775339917600/Captura%20de%20tela%202025-04-15%20120448.png?_gl=1*1al306g*_gcl_aw*R0NMLjE3Njk0NTA0MTMuQ2owS0NRaUF2dHpMQmhDUEFSSXNBTHdoeGRxRThTYUJVN2x2eVczMmZsekRYdTZOZzEwZVRkdU5Hd0JSUll6MURnbzRKTEJkUHBQWkplNGFBbFRCRUFMd193Y0I.*_gcl_au*MTUxODI2NjY2MS4xNzc0MDI2OTk1*_ga*MTkxNjQzNDg2Mi4xNzI0MTI1OTM0*_ga_BFPVR2DEE2*czE3NzU0ODQ0ODAkbzEyNyRnMSR0MTc3NTQ4NTcyOCRqMzEkbDAkaDA.',
-    websiteUrl: 'https://evencourt.com/',
     youtubeUrls: ['https://youtu.be/4yzifglJXHk'],
     testimonyLink: 'https://clutch.co/profile/goodspeed?page=2#reviews',
     testimonyImageUrl:
@@ -188,7 +184,6 @@ export const projects: Project[] = [
     tools: ['Bubble', 'Stripe API', 'Nylas API'],
     imageUrl:
       'https://df4a82bcbf6733b3841743cba7039857.cdn.bubble.io/f1744815887913x236646414439416030/Captura%20de%20tela%202024-08-20%20012845.png?_gl=1*1jsisx3*_gcl_aw*R0NMLjE3Njk0NTA0MTMuQ2owS0NRaUF2dHpMQmhDUEFSSXNBTHdoeGRxRThTYUJVN2x2eVczMmZsekRYdTZOZzEwZVRkdU5Hd0JSUll6MURnbzRKTEJkUHBQWkplNGFBbFRCRUFMd193Y0I.*_gcl_au*MTUxODI2NjY2MS4xNzc0MDI2OTk1*_ga*MTkxNjQzNDg2Mi4xNzI0MTI1OTM0*_ga_BFPVR2DEE2*czE3NzU0ODQ0ODAkbzEyNyRnMSR0MTc3NTQ4NTcyOCRqMzEkbDAkaDA.',
-    websiteUrl: 'https://coachfully.de/',
     youtubeUrls: ['https://youtu.be/85aKT-LBpxM', 'https://youtu.be/yizqt5VjmgA'],
     testimonyLink: 'https://clutch.co/profile/goodspeed#reviews',
     testimonyImageUrl:

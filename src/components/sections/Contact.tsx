@@ -22,10 +22,11 @@ export function Contact() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error('send failed');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || data.error || 'send failed');
       setSent(true);
-    } catch {
-      alert('Something went wrong. Please email me directly at douglas.epr@hotmail.com');
+    } catch (err) {
+      alert(`Something went wrong: ${err instanceof Error ? err.message : 'Unknown error'}. Please email me at douglas.epr@hotmail.com`);
     } finally {
       setLoading(false);
     }

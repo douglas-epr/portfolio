@@ -10,7 +10,7 @@ export function Footer() {
   return (
     <footer className="border-t border-white/5 bg-[#0a0a0f] py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 items-start sm:flex-row sm:items-center sm:justify-between">
           {/* Brand — avatar + wordmark, matches Navbar */}
           <button
             onClick={() => scrollTo('hero')}
@@ -30,13 +30,13 @@ export function Footer() {
                 <span className="text-slate-100 font-bold text-sm tracking-tight">DG</span>
                 <span className="gradient-text text-sm font-bold">.</span>
               </div>
-              <span className="text-[9px] font-semibold tracking-widest text-slate-500 uppercase group-hover:text-slate-400 transition-colors duration-200">AI &amp; NoCode Developer</span>
+              <span className="text-[9px] font-semibold tracking-widest text-slate-500 uppercase whitespace-nowrap group-hover:text-slate-400 transition-colors duration-200">AI &amp; NoCode Developer</span>
             </div>
           </button>
 
           {/* Copyright */}
           <p className="text-xs text-slate-600">
-            © 2026 Douglas Gouveia · Built with Claude Code
+            © 2026 Douglas Gouveia · All Rights Reserved
           </p>
         </div>
       </div>

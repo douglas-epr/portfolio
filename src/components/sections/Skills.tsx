@@ -12,51 +12,74 @@ import { cn } from '@/lib/utils';
 
 // ─── Logo chips for tool-based categories ──────────────────────────────────
 
+// Local logo images (copied to public/logos/)
+const LOCAL_LOGOS: Record<string, { src: string; border: string; invert?: boolean }> = {
+  'Lovable':       { src: '/logos/lovable.png',      border: 'border-pink-500/30'     },
+  'Bubble':        { src: '/logos/bubble.jpg',       border: 'border-blue-500/30',    invert: true },
+  'OpenAI':        { src: '/logos/openai.svg',       border: 'border-emerald-500/30', invert: true },
+  'Salesforce':    { src: '/logos/salesforce.jpg',   border: 'border-sky-500/30'      },
+  'Apify':         { src: '/logos/apify.svg',        border: 'border-orange-500/30'   },
+  'Slack':         { src: '/logos/slack.png',        border: 'border-fuchsia-500/30'  },
+  'Microsoft APIs':{ src: '/logos/microsoft.svg',    border: 'border-blue-500/30'     },
+  'Nylas':         { src: '/logos/nylas.png',        border: 'border-blue-500/30'     },
+  'Relevance AI':  { src: '/logos/relevance-ai.png', border: 'border-blue-500/30'     },
+  'Apollo':        { src: '/logos/apollo.png',       border: 'border-yellow-500/30'   },
+  'Build with AI': { src: '/logos/builtwith.png',    border: 'border-green-500/30'    },
+  'Full Enrich':   { src: '/logos/fullenrich.png',   border: 'border-slate-500/30',   invert: true },
+};
+
 // Brands with verified logos on cdn.simpleicons.org
 const SIMPLE_ICONS: Record<string, { slug: string; color: string; border: string }> = {
   // AI Tools
-  'Claude Code':       { slug: 'claude',        color: 'D97706', border: 'border-amber-500/30'   },
-  'Figma Make':        { slug: 'figma',         color: 'A78BFA', border: 'border-purple-500/30'  },
-  'Supabase':          { slug: 'supabase',      color: '3ECF8E', border: 'border-emerald-500/30' },
+  'Claude Code':       { slug: 'claude',       color: 'D97706', border: 'border-amber-500/30'   },
+  'Figma Make':        { slug: 'figma',        color: 'A78BFA', border: 'border-purple-500/30'  },
+  'Supabase':          { slug: 'supabase',     color: '3ECF8E', border: 'border-emerald-500/30' },
   // APIs
-  'Stripe':            { slug: 'stripe',        color: '818CF8', border: 'border-violet-500/30'  },
-  'PayPal':            { slug: 'paypal',        color: '60A5FA', border: 'border-blue-500/30'    },
-  'OpenAI':            { slug: 'openai',        color: 'ffffff', border: 'border-emerald-500/30' },
-  'Gemini':            { slug: 'googlegemini',  color: '22D3EE', border: 'border-cyan-500/30'    },
-  'Claude':            { slug: 'claude',        color: 'D97706', border: 'border-amber-500/30'   },
-  'HubSpot':           { slug: 'hubspot',       color: 'FB923C', border: 'border-orange-500/30'  },
-  'Salesforce':        { slug: 'salesforce',    color: '22D3EE', border: 'border-sky-500/30'     },
-  'Slack':             { slug: 'slack',         color: 'E879F9', border: 'border-fuchsia-500/30' },
-  'WhatsApp Business': { slug: 'whatsapp',      color: '4ADE80', border: 'border-green-500/30'   },
-  'Google APIs':       { slug: 'google',        color: 'FBBF24', border: 'border-yellow-500/30'  },
-  'Microsoft APIs':    { slug: 'microsoftazure',color: '60A5FA', border: 'border-blue-500/30'    },
-  'Apify':             { slug: 'apify',         color: 'FF9619', border: 'border-orange-500/30'  },
+  'Stripe':            { slug: 'stripe',       color: '818CF8', border: 'border-violet-500/30'  },
+  'PayPal':            { slug: 'paypal',       color: '60A5FA', border: 'border-blue-500/30'    },
+  'Gemini':            { slug: 'googlegemini', color: '22D3EE', border: 'border-cyan-500/30'    },
+  'Claude':            { slug: 'claude',       color: 'D97706', border: 'border-amber-500/30'   },
+  'HubSpot':           { slug: 'hubspot',      color: 'FB923C', border: 'border-orange-500/30'  },
+  'WhatsApp Business': { slug: 'whatsapp',     color: '4ADE80', border: 'border-green-500/30'   },
+  'Google APIs':       { slug: 'google',       color: 'FBBF24', border: 'border-yellow-500/30'  },
 };
 
-// Fallback abbreviations for brands not on Simple Icons
+// Fallback abbreviations
 const ABBR_MAP: Record<string, { abbr: string; text: string; border: string }> = {
-  'Bubble':        { abbr: 'BB', text: 'text-blue-300',   border: 'border-blue-500/30'   },
-  'Lovable':       { abbr: 'LV', text: 'text-pink-300',   border: 'border-pink-500/30'   },
-  'Relevance AI':  { abbr: 'RA', text: 'text-purple-300', border: 'border-purple-500/30' },
-  'Apollo':        { abbr: 'AP', text: 'text-indigo-300', border: 'border-indigo-500/30' },
-  'Build with AI': { abbr: 'BW', text: 'text-teal-300',   border: 'border-teal-500/30'   },
-  'Full Enrich':   { abbr: 'FE', text: 'text-lime-300',   border: 'border-lime-500/30'   },
-  'Firecrawl':     { abbr: 'FC', text: 'text-red-300',    border: 'border-red-500/30'    },
-  'Nylas':         { abbr: 'NY', text: 'text-rose-300',   border: 'border-rose-500/30'   },
+  'Firecrawl': { abbr: 'FC', text: 'text-red-300', border: 'border-red-500/30' },
 };
 
 function ToolLogo({ name }: { name: string }) {
-  const cdn = SIMPLE_ICONS[name];
+  // 1. Local logo image
+  const local = LOCAL_LOGOS[name];
+  if (local) {
+    return (
+      <motion.div
+        whileHover={{ y: -3, scale: 1.05 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+        className={cn('flex items-center gap-2.5 px-3 py-2 rounded-xl border cursor-default bg-[#1a1a2e]', local.border)}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={local.src}
+          alt={name}
+          width={16}
+          height={16}
+          className={cn('w-4 h-4 flex-shrink-0 object-contain', local.invert && 'invert')}
+        />
+        <span className="text-slate-300 text-xs font-medium whitespace-nowrap">{name}</span>
+      </motion.div>
+    );
+  }
 
+  // 2. Simple Icons CDN
+  const cdn = SIMPLE_ICONS[name];
   if (cdn) {
     return (
       <motion.div
         whileHover={{ y: -3, scale: 1.05 }}
         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-        className={cn(
-          'flex items-center gap-2.5 px-3 py-2 rounded-xl border cursor-default bg-[#1a1a2e]',
-          cdn.border
-        )}
+        className={cn('flex items-center gap-2.5 px-3 py-2 rounded-xl border cursor-default bg-[#1a1a2e]', cdn.border)}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -71,7 +94,7 @@ function ToolLogo({ name }: { name: string }) {
     );
   }
 
-  // Abbreviation fallback
+  // 3. Abbreviation fallback
   const config = ABBR_MAP[name] ?? { abbr: name.slice(0, 2).toUpperCase(), text: 'text-slate-300', border: 'border-white/10' };
   return (
     <motion.div

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Star, Quote } from 'lucide-react';
+import { LinkedinIcon } from '@/components/ui/SocialIcons';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { SpotlightCard } from '@/components/ui/SpotlightCard';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
@@ -79,8 +80,21 @@ export function Testimonials() {
                     </div>
                   )}
 
-                  <div className="min-w-0">
-                    <p className="text-slate-200 text-sm font-semibold truncate">{t.author}</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="text-slate-200 text-sm font-semibold truncate">{t.author}</p>
+                      {t.linkedinUrl && (
+                        <a
+                          href={t.linkedinUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-slate-500 hover:text-blue-400 transition-colors duration-200 flex-shrink-0"
+                          aria-label={`${t.author} on LinkedIn`}
+                        >
+                          <LinkedinIcon size={13} />
+                        </a>
+                      )}
+                    </div>
                     <p className="text-xs text-blue-400 truncate">{t.company}</p>
                     {t.date && (
                       <p className="text-xs text-slate-600 mt-0.5">{t.date}</p>

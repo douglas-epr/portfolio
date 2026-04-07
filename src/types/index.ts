@@ -72,6 +72,7 @@ export interface Testimonial {
   role?: string;
   company?: string;
   photo?: string;
+  linkedinUrl?: string;
   rating: number;
   text: string;
   date?: string;

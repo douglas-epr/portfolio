@@ -12,10 +12,12 @@ export function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -23,10 +25,10 @@ export function Contact() {
         body: JSON.stringify(form),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || data.error || 'send failed');
+      if (!res.ok) throw new Error(data.error || 'send failed');
       setSent(true);
-    } catch (err) {
-      alert(`Something went wrong: ${err instanceof Error ? err.message : 'Unknown error'}. Please email me at douglas.epr@hotmail.com`);
+    } catch {
+      setError('Something went wrong. Please email me directly at douglas.epr@hotmail.com');
     } finally {
       setLoading(false);
     }
@@ -137,7 +139,7 @@ export function Contact() {
                     <p className="text-slate-400 text-sm mt-1">I&apos;ll get back to you shortly.</p>
                   </div>
                   <button
-                    onClick={() => { setSent(false); setForm({ name: '', email: '', message: '' }); }}
+                    onClick={() => { setSent(false); setForm({ name: '', email: '', message: '' }); setError(null); }}
                     className="text-sm text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
                   >
                     Send another message
@@ -182,6 +184,11 @@ export function Contact() {
                       className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-200 placeholder-slate-600 text-sm focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 transition-all resize-none"
                     />
                   </div>
+                  {error && (
+                    <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+                      {error}
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={loading || !form.name || !form.email || !form.message}

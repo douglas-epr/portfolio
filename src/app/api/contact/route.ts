@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
   const result = contactSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json(
-      { error: result.error.errors[0].message },
+      { error: result.error.issues[0]?.message ?? 'Invalid input' },
       { status: 400 }
     );
   }

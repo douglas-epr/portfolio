@@ -38,7 +38,7 @@ export const testimonials: Testimonial[] = [
     photo: '/images/filippo pavone.jpeg',
     linkedinUrl: 'https://www.linkedin.com/in/filippo-pavone/',
     rating: 5,
-    text: "Douglas is an exceptional developer who possesses a rare ability to bridge the gap between technical complexity and business clarity. At Sales ABX, he took our vision and translated it into a sophisticated, scalable web application using his expert-level Bubble.io skills. His background in Production Engineering is evident in the rigor he applies to backend architecture and API integrations. He doesn't just build apps; he architects enterprise-grade solutions at incredible speed.",
+    text: "I had the pleasure of working with Douglas for over eight months on a highly complex project, and throughout that time he consistently demonstrated a high level of professionalism. He was reliable with timelines, communicated clearly, and applied thoughtful, effective techniques to solve challenging problems. Douglas handled both the backend and frontend development of the platform using Bubble, while also optimizing performance using Supabase. The end result was a robust sales tool designed to help users research accounts efficiently, and his contribution was instrumental in bringing it to life.",
     date: 'May 2025',
   },
   {
@@ -58,7 +58,7 @@ export const testimonials: Testimonial[] = [
     photo: '/images/ranjit bhinge.jpeg',
     linkedinUrl: 'https://www.linkedin.com/in/ranjitbhinge/',
     rating: 5,
-    text: "As our Operations Manager and Lead Developer at Blur Studio, Douglas has been instrumental in our operational leadership. He revolutionized our internal workflows by architecting our Company OS and a high-level Project Management System. His ownership mentality is clear in how he manages talent pools, SOPs, and OKRs while simultaneously deploying cutting-edge apps using Claude Code and Lovable. He is a true multidisciplinary engineer who delivers consistent, coherent results across every phase of the project lifecycle.",
+    text: "Douglas worked with Blur Studio as a Bubble developer and Operations Manager. He played a crucial role in setting up processes for managing operations, executing on large projects and making sure we had meaningful checkpoints to manage each of them well. He was also instrumental in executing on several projects himself using tools like Bubble and Lovable to help founders create, validate and launch startups with web and mobile apps. He showed great promise and has constantly been pushing himself to learn, grow and improve his skills with nocode, AI and project management.",
     date: 'Jan 2026',
   },
 ];

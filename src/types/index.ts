@@ -7,6 +7,12 @@ export type ProjectType =
   | 'Management'
   | 'Other';
 
+export interface ProjectLink {
+  label: string;
+  url: string;
+  variant: 'live' | 'demo';
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -18,6 +24,7 @@ export interface Project {
   imageUrl: string;
   websiteUrl?: string;
   youtubeUrls?: string[];
+  links?: ProjectLink[];
   testimonyLink?: string;
   testimonyImageUrl?: string;
   featured: boolean;

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { X, ExternalLink, Wrench } from 'lucide-react';
+import { X, ExternalLink, Wrench, Play } from 'lucide-react';
 import { YoutubeIcon } from '@/components/ui/SocialIcons';
 import { Project } from '@/types';
 import { Badge } from './Badge';
@@ -102,7 +102,33 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
             {/* Body */}
             <div className="p-6 space-y-6">
               {/* Links row */}
-              {(project.websiteUrl || (project.youtubeUrls && project.youtubeUrls.length > 0)) && (
+              {project.links ? (
+                <div className="flex flex-wrap gap-3">
+                  {project.links.map((link) => (
+                    link.variant === 'live' ? (
+                      <a
+                        key={link.url}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-white text-sm font-medium transition-colors"
+                      >
+                        <ExternalLink size={14} /> {link.label}
+                      </a>
+                    ) : (
+                      <a
+                        key={link.url}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-sm font-medium transition-colors"
+                      >
+                        <Play size={14} /> {link.label}
+                      </a>
+                    )
+                  ))}
+                </div>
+              ) : (project.websiteUrl || (project.youtubeUrls && project.youtubeUrls.length > 0)) && (
                 <div className="flex flex-wrap gap-3">
                   {project.websiteUrl && (
                     <a

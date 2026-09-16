@@ -1,0 +1,100 @@
+---
+import { person } from '@/data/person';
+import { experiences } from '@/data/experience';
+
+const current = experiences[0];
+const revision = new Date().toISOString().slice(0, 7).replace('-', '.');
+const [first, last] = person.name.split(' ');
+---
+
+<section id="hero" class="ground--paper" data-sc-act="pin" data-sc-span="3" data-chapter-title="Title page" aria-label="Title page">
+  <div class="title" data-sc-stage>
+    <div class="title__meta" data-sc-cue="0 1 0 0.04">
+      <span>Document · {person.name}</span>
+      <span>Rev. {revision}</span>
+    </div>
+
+    <h1 class="title__name sc-display" data-sc-cue="0 1 0 0.05">
+      {first}<br /><em>{last}</em>
+    </h1>
+
+    <p class="title__deck" data-sc-cue="0.06 1 0.1 0.05">
+      I build production AI systems for regulated workflows, client money and audit trails. None of it gets improvised.
+    </p>
+
+    <dl class="title__block" data-sc-cue="0.12 1 0.08 0.05">
+      <div data-sc-cue="0.2 1 0.08 0.05">
+        <dt>Title</dt>
+        <dd data-ledger={`${current?.role} · ${current?.company} · ${current?.startDate.slice(-4)}`} data-ledger-at="0.26">{person.title}, {current?.company}</dd>
+      </div>
+      <div data-sc-cue="0.3 1 0.08 0.05">
+        <dt>Also</dt>
+        <dd data-ledger="Senior Certified Bubble Developer" data-ledger-at="0.36">{person.subtitle}</dd>
+      </div>
+      <div data-sc-cue="0.4 1 0.08 0.05">
+        <dt>Base</dt>
+        <dd data-ledger={`${person.location} · remote`} data-ledger-at="0.46">{person.location} · remote</dd>
+      </div>
+      <div data-sc-cue="0.5 1 0.08 0.05">
+        <dt>Contact</dt>
+        <dd><a class="text-link" href="#contact">Get in touch</a></dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .title {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.5rem, 4vh, 3rem) var(--sc-gutter) clamp(1.5rem, 4vh, 3rem);
+  }
+  .title__meta {
+    display: flex; justify-content: space-between; gap: var(--sc-4);
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs);
+    letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--sc-ink-soft);
+  }
+  .title__name {
+    font-size: clamp(3.4rem, 13.5vw, 11.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    margin: clamp(1.5rem, 5vh, 3.5rem) 0 0;
+  }
+  .title__name em { font-style: italic; }
+  .title__deck {
+    max-width: 42ch;
+    font-size: var(--sc-t-lg);
+    line-height: 1.4;
+    margin: clamp(1.25rem, 4vh, 2.5rem) 0 0;
+    color: var(--sc-ink);
+    text-wrap: pretty;
+  }
+  .title__block {
+    margin: auto 0 0;
+    padding-top: var(--sc-5);
+    border-top: 1px solid var(--sc-ink);
+    border-bottom: 1px solid var(--sc-ink);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-top: 0;
+  }
+  .title__block > div { padding: var(--sc-3) var(--sc-4) var(--sc-3) 0; border-right: 1px solid var(--hairline); }
+  .title__block > div + div { padding-left: var(--sc-4); }
+  .title__block > div:last-child { border-right: 0; }
+  .title__block dt {
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs);
+    letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--sc-ink-soft);
+    margin: 0 0 var(--sc-1);
+  }
+  .title__block dd { margin: 0; font-size: var(--sc-t-sm); line-height: 1.4; text-wrap: pretty; }
+
+  @media (max-width: 860px) {
+    .title__name { font-size: clamp(3rem, 17vw, 5.4rem); }
+    .title__deck { font-size: var(--sc-t-base); }
+    .title__block { grid-template-columns: 1fr 1fr; margin-top: clamp(2rem, 8vh, 5rem); margin-bottom: auto; }
+    .title__block > div { border-right: 0; padding-left: 0; border-top: 1px solid var(--hairline); }
+    .title__block > div:nth-child(-n + 2) { border-top: 0; }
+    .title__block > div:nth-child(odd) { padding-right: var(--sc-4); border-right: 1px solid var(--hairline); }
+    .title__block > div:nth-child(even) { padding-left: var(--sc-4); }
+  }
+</style>

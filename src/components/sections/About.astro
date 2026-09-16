@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import { person } from '@/data/person';
+import { experiences } from '@/data/experience';
+import { educations } from '@/data/education';
+
+const current = experiences[0];
+const masters = educations[0];
+---
+
+<section id="about" class="ground--dark chapter" data-sc-act="flow" data-chapter-title="About">
+  <div class="sc-wrap about">
+    <div class="about__copy sc-stack" data-sc-in data-sc-stagger="70">
+      <p class="folio"><b>§01</b> · About</p>
+      <h2 class="sc-display sc-display--lg">An engineer who writes the spec before the code.</h2>
+      <p class="about__bio">{person.bio}</p>
+      <dl class="about__facts">
+        <div>
+          <dt>Now</dt>
+          <dd>{current?.role} at {current?.company}, since {current?.startDate}</dd>
+        </div>
+        <div>
+          <dt>Education</dt>
+          <dd data-ledger={`${masters?.degree}, ${masters?.field} · ${masters?.institution} · ${masters?.endYear}`}>{masters?.degree} in {masters?.field}, {masters?.institution}</dd>
+        </div>
+        <div>
+          <dt>Where</dt>
+          <dd>{person.location}. Remote, with clients in Brazil, Finland, the United Kingdom and the United States.</dd>
+        </div>
+      </dl>
+    </div>
+    <figure class="about__figure">
+      <div class="about__frame" data-sc-reveal="left" data-sc-reveal-at="0.12 0.5">
+        <Image src={person.profilePhoto} alt={`${person.name}, portrait`} widths={[480, 720, 960]} sizes="(max-width: 860px) 100vw, 26rem" loading="eager" data-sc-parallax="0.35" />
+      </div>
+      <figcaption class="mono">{person.name}. Photograph.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .about { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 26rem); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .about__bio { color: var(--sc-ink-soft); max-width: var(--sc-measure); text-wrap: pretty; margin: 0; }
+  .about__facts { margin: var(--sc-7) 0 0; display: grid; border-top: 1px solid var(--hairline); max-width: 40rem; }
+  .about__facts > div { display: grid; grid-template-columns: 7rem 1fr; gap: var(--sc-4); padding: var(--sc-3) 0; border-bottom: 1px solid var(--hairline); }
+  .about__facts dt { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--sc-ink-soft); padding-top: 0.2em; }
+  .about__facts dd { margin: 0; font-size: var(--sc-t-sm); line-height: 1.5; }
+  .about__figure { margin: 0; display: grid; gap: var(--sc-3); }
+  .about__frame { aspect-ratio: 4 / 5; overflow: hidden; border: 1px solid var(--hairline); background: #23242a; }
+  .about__frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; scale: 1.08; }
+  .about__figure figcaption { color: var(--sc-ink-soft); }
+
+  @media (max-width: 860px) {
+    .about { grid-template-columns: 1fr; }
+    .about__figure { order: -1; max-width: 22rem; }
+    .about__facts > div { grid-template-columns: 5.5rem 1fr; }
+  }
+</style>

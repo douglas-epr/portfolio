@@ -1,0 +1,59 @@
+/* Brand tokens for douglasgouveia.dev. Everything in scrollcraft.css derives
+   from these. Two grounds, one accent hue at two lightnesses (allowed for a
+   page that hard-cuts between paper and dark), three faces. */
+:root {
+  --paper: #ededE8;
+  --paper-ink: #15161a;
+  --paper-ink-soft: #5b5c60;
+  --paper-accent: #b3261e;
+  --paper-hairline: #c9c9c2;
+
+  --dark: #15161a;
+  --dark-ink: #f2f1ec;
+  --dark-ink-soft: #a9a8a2;
+  --dark-accent: #e4574b;
+  --dark-hairline: #3a3b40;
+
+  --sc-canvas: var(--paper);
+  --sc-surface: var(--dark);
+  --sc-ink: var(--paper-ink);
+  --sc-ink-soft: var(--paper-ink-soft);
+  --sc-accent: var(--paper-accent);
+  --sc-accent-ink: #f2f1ec;
+  --sc-shadow-color: 225 8% 8%;
+
+  --sc-font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --sc-font-text: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sc-font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --sc-r-sm: 2px;
+  --sc-r-md: 4px;
+  --sc-r-lg: 6px;
+
+  --ledger-w: 15rem;
+  --ledger-h: 3rem;
+}
+
+/* Instrument Serif ships one weight. */
+.sc-display { font-weight: 400; }
+
+/* Grounds. Restating `color` is required: it inherits as a computed value, so
+   redefining the token alone would leave the old ink in place. */
+.ground--paper {
+  background: var(--paper);
+  --sc-ink: var(--paper-ink);
+  --sc-ink-soft: var(--paper-ink-soft);
+  --sc-accent: var(--paper-accent);
+  --sc-accent-ink: #f2f1ec;
+  --hairline: var(--paper-hairline);
+  color: var(--sc-ink);
+}
+.ground--dark {
+  background: var(--dark);
+  --sc-ink: var(--dark-ink);
+  --sc-ink-soft: var(--dark-ink-soft);
+  --sc-accent: var(--dark-accent);
+  --sc-accent-ink: #15161a;
+  --hairline: var(--dark-hairline);
+  color: var(--sc-ink);
+}

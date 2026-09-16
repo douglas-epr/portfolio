@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import { skills } from '@/data/skills';
+import type { SkillCategory } from '@/types';
+
+const groups: Array<{ category: SkillCategory; title: string; note: string }> = [
+  { category: 'Stack', title: 'Stack', note: 'What the Move37 platforms run on.' },
+  { category: 'AI Tools', title: 'AI tools', note: 'How I build at speed.' },
+  { category: 'Competencies', title: 'Competencies', note: 'From the CV, in its own words.' },
+  { category: 'APIs', title: 'APIs integrated', note: 'Every one of these has shipped inside a client product.' },
+];
+const byCategory = (category: SkillCategory) => skills.filter((skill) => skill.category === category);
+---
+
+<section id="skills" class="ground--paper" data-sc-act="pan" data-sc-span="2.6" data-chapter-title="Stack">
+  <div class="stack" data-sc-stage>
+    <div class="rail" data-sc-pan="0.05">
+      <div class="rail__item rail__lead" style="--i: 0">
+        <p class="folio"><b>§04</b> · Stack</p>
+        <h2 class="sc-display sc-display--lg">Tools, listed the way an inventory is.</h2>
+        <p class="sc-body">Grouped by what they do. Logos where the tool has one, names where it does not. The rail moves as you scroll.</p>
+      </div>
+      {groups.map((group, index) => {
+        const items = byCategory(group.category);
+        return (
+          <div class="rail__item" style={`--i: ${index + 1}`} data-ledger={`${items.length} ${group.title.toLowerCase()}`}>
+            <p class="rail__title mono">{group.title} <span>· {items.length}</span></p>
+            <p class="rail__note">{group.note}</p>
+            <ul class="tools">
+              {items.map((skill) => (
+                <li class="tool">
+                  {skill.logo ? <Image src={skill.logo} alt="" width={20} height={20} class="tool__logo" /> : <span class="tool__mark" aria-hidden="true"></span>}
+                  <span>{skill.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+      <div class="rail__item rail__end" style="--i: 5">
+        <p class="mono">Logos belong to their owners.</p>
+        <p class="sc-body">Certified Senior Bubble Developer. The rest is on the CV.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stack { display: flex; align-items: center; }
+  .rail { gap: clamp(2rem, 4vw, 4rem); padding: 0 var(--sc-gutter); align-items: flex-start; }
+  .rail__item { flex: 0 0 auto; width: clamp(16rem, 24vw, 22rem); }
+  .rail__lead { width: clamp(18rem, 28vw, 26rem); display: grid; gap: var(--sc-4); }
+  .rail__lead .sc-display { max-width: 12ch; }
+  .rail__end { width: clamp(14rem, 18vw, 18rem); display: grid; gap: var(--sc-3); color: var(--sc-ink-soft); }
+  .rail__end .mono { margin: 0; }
+  .rail__title { margin: 0; padding-bottom: var(--sc-2); border-bottom: 1px solid var(--sc-ink); text-transform: uppercase; letter-spacing: var(--sc-track-wide); }
+  .rail__title span { color: var(--sc-accent); }
+  .rail__note { margin: var(--sc-2) 0 var(--sc-4); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  .tools { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .tool { display: flex; align-items: center; gap: var(--sc-3); padding: var(--sc-2) 0; border-bottom: 1px solid var(--hairline); font-size: var(--sc-t-sm); }
+  .tool__logo, .tool__mark { width: 20px; height: 20px; flex: none; }
+  .tool__logo { object-fit: contain; }
+  .tool__mark { display: inline-block; width: 0.55rem; height: 1px; background: var(--sc-accent); margin-inline: 0.3rem; }
+
+  /* Items settle in sequence as the rail travels; the lead is exempt. */
+  @media (prefers-reduced-motion: no-preference) {
+    .rail__item:not(.rail__lead) {
+      opacity: calc(0.55 + 0.45 * clamp(0, var(--sc-p, 1) * 6 - var(--i) + 1, 1));
+      transform: translate3d(0, calc((1 - clamp(0, var(--sc-p, 1) * 6 - var(--i) + 1, 1)) * 10px), 0);
+    }
+  }
+  .rail__item { --sc-p: inherit; }
+
+  @media (max-width: 860px) {
+    .rail__item { width: min(78vw, 20rem); }
+    .rail__lead { width: min(84vw, 22rem); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rail { padding-block: var(--sc-7); }
+  }
+</style>

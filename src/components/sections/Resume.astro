@@ -1,0 +1,89 @@
+---
+import { experiences } from '@/data/experience';
+import { educations } from '@/data/education';
+
+const firstYear = Math.min(...experiences.map((e) => Number(e.startDate.slice(-4))));
+const lastYear = new Date().getFullYear();
+const yearsActive = lastYear - firstYear;
+const roleCount = experiences.length;
+const schoolCount = educations.length;
+---
+
+<section id="resume" class="ground--paper chapter" data-sc-act="flow" data-chapter-title="Career">
+  <div class="sc-wrap">
+    <header class="chapter__head" data-sc-in data-sc-stagger="60">
+      <p class="folio"><b>§02</b> · Career</p>
+      <h2 class="sc-display sc-display--lg">Five roles, one habit: measure before you change anything.</h2>
+      <p class="figures mono">
+        <span><b class="sc-nums" data-sc-count={`0 ${yearsActive}`} data-sc-count-at="0.05 0.35">{yearsActive}</b> years</span>
+        <span><b class="sc-nums" data-sc-count={`0 ${roleCount}`} data-sc-count-at="0.08 0.35">{roleCount}</b> roles</span>
+        <span><b class="sc-nums" data-sc-count={`0 ${schoolCount}`} data-sc-count-at="0.11 0.35">{schoolCount}</b> institutions</span>
+      </p>
+    </header>
+
+    <ol class="roles" data-sc-in data-sc-stagger="80">
+      {experiences.map((job, index) => (
+        <li class="role" data-ledger={index === 0 ? `Every action leaves an audit trail · ${job.company}` : `${job.role} · ${job.company} · ${job.startDate}`}>
+          <div class="role__when mono">
+            <span>{job.startDate}</span>
+            <span>{job.endDate}</span>
+          </div>
+          <div class="role__who">
+            <h3 class="sc-display sc-display--md">{job.role}</h3>
+            <p class="role__firm">{job.company} <span class="role__loc">· {job.location}</span></p>
+            {job.stack ? <p class="role__stack mono">{job.stack.join(' · ')}</p> : null}
+          </div>
+          <ul class="role__notes">
+            {(index === 0 ? job.highlights : job.highlights.slice(0, 2)).map((line) => <li>{line}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ol>
+
+    <div class="schools" data-sc-in>
+      <h3 class="folio">Education</h3>
+      <ol class="schools__list">
+        {educations.map((school) => (
+          <li>
+            <span class="mono">{school.startYear === school.endYear ? school.endYear : `${school.startYear}–${school.endYear}`}</span>
+            <span><b>{school.institution}</b> · {school.degree}, {school.field}</span>
+            <span class="schools__loc mono">{school.location}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .figures { display: flex; flex-wrap: wrap; gap: var(--sc-5); color: var(--sc-ink-soft); margin: 0; }
+  .figures b { font-family: var(--sc-font-display); font-size: var(--sc-t-xl); color: var(--sc-ink); font-weight: 400; margin-right: 0.15em; }
+
+  .roles { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--sc-ink); }
+  .role {
+    display: grid; grid-template-columns: 8rem minmax(0, 1.1fr) minmax(0, 1.4fr);
+    gap: var(--sc-6); padding: var(--sc-5) 0; border-bottom: 1px solid var(--hairline);
+  }
+  .role__when { display: grid; gap: 2px; color: var(--sc-ink-soft); padding-top: 0.5em; }
+  .role__who h3 { margin: 0; }
+  .role__firm { margin: var(--sc-2) 0 0; font-size: var(--sc-t-sm); }
+  .role__loc { color: var(--sc-ink-soft); }
+  .role__stack { margin: var(--sc-4) 0 0; color: var(--sc-ink-soft); line-height: 1.6; }
+  .role__notes { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--sc-3); color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.55; text-wrap: pretty; }
+  .role__notes li { padding-left: var(--sc-4); position: relative; }
+  .role__notes li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 0.5rem; height: 1px; background: var(--sc-accent); }
+  .role:first-child .role__notes { color: var(--sc-ink); }
+
+  .schools { margin-top: var(--sc-8); }
+  .schools__list { list-style: none; margin: var(--sc-4) 0 0; padding: 0; border-top: 1px solid var(--sc-ink); }
+  .schools__list li { display: grid; grid-template-columns: 8rem 1fr auto; gap: var(--sc-6); padding: var(--sc-3) 0; border-bottom: 1px solid var(--hairline); font-size: var(--sc-t-sm); }
+  .schools__list b { font-weight: 500; }
+  .schools__loc { color: var(--sc-ink-soft); }
+
+  @media (max-width: 860px) {
+    .role { grid-template-columns: 1fr; gap: var(--sc-4); }
+    .role__when { display: flex; gap: var(--sc-3); }
+    .role__when span + span::before { content: '→ '; }
+    .schools__list li { grid-template-columns: 1fr; gap: var(--sc-1); }
+  }
+</style>

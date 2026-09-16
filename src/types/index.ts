@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 export type ProjectType =
   | 'SaaS'
   | 'SaaS (CRM)'
@@ -21,26 +23,22 @@ export interface Project {
   description: string;
   keyFeatures: string[];
   tools: string[];
-  imageUrl: string;
+  image: ImageMetadata;
   websiteUrl?: string;
   youtubeUrls?: string[];
   links?: ProjectLink[];
   testimonyLink?: string;
-  testimonyImageUrl?: string;
+  testimonyImage?: ImageMetadata;
   featured: boolean;
 }
 
-export type SkillCategory =
-  | 'AI Tools'
-  | 'NoCode'
-  | 'Product'
-  | 'Engineering'
-  | 'Management'
-  | 'APIs';
+export type SkillCategory = 'Stack' | 'AI Tools' | 'Competencies' | 'APIs';
 
 export interface Skill {
   name: string;
   category: SkillCategory;
+  /** Local logo asset, when the tool has one. */
+  logo?: ImageMetadata;
 }
 
 export interface Experience {
@@ -68,7 +66,6 @@ export interface Education {
 
 export interface Service {
   id: string;
-  icon: string;
   title: string;
   description: string;
 }
@@ -78,7 +75,7 @@ export interface Testimonial {
   author: string;
   role?: string;
   company?: string;
-  photo?: string;
+  photo: ImageMetadata;
   linkedinUrl?: string;
   rating: number;
   text: string;
@@ -91,7 +88,8 @@ export interface Tutorial {
   youtubeId: string;
   title: string;
   description: string;
-  embedUrl: string;
+  /** Start offset in seconds, when the embed should not begin at 0. */
+  start?: number;
 }
 
 export interface Person {
@@ -106,6 +104,7 @@ export interface Person {
   linkedinUrl: string;
   youtubeUrl: string;
   portfolioUrl: string;
-  profilePhoto: string;
-  heroPhoto: string;
+  cvUrl: string;
+  profilePhoto: ImageMetadata;
+  heroPhoto: ImageMetadata;
 }

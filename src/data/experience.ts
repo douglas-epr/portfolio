@@ -1,0 +1,77 @@
+import type { Experience } from '@/types';
+
+export const experiences: Experience[] = [
+  {
+    id: 'move37',
+    role: 'Founding Engineer',
+    company: 'Move37',
+    location: 'Remote',
+    startDate: 'Jun 2026',
+    endDate: 'Present',
+    type: 'remote',
+    highlights: [
+      'Build production AI platforms where AI meets real operational risk: regulated financial workflows, source-verified recommendation engines, multi-tenant content operations, and the internal systems running agency projects, billing and client delivery.',
+      'Architecture pattern: AI does the repetitive reasoning at scale, humans keep the judgment, and every action leaves an audit trail.',
+      'Stack: Next.js and TypeScript on Supabase with row-level security, deployed on Cloudflare Workers, with multi-model AI orchestration behind a single gateway.',
+      'Spec-driven delivery: architecture, data model and acceptance criteria written before code. Systems touching client money or client data are not improvised.',
+    ],
+    stack: ['Next.js', 'TypeScript', 'Supabase', 'Row-level security', 'Cloudflare Workers', 'AI gateway', 'Claude Code'],
+  },
+  {
+    id: 'freelance',
+    role: 'Senior Bubble Developer & AI Product Engineer',
+    company: 'Freelance / Independent',
+    location: 'Remote',
+    startDate: 'Jan 2022',
+    endDate: 'Present',
+    type: 'remote',
+    highlights: [
+      'Complex backend architecture: high-performance database structures and sophisticated API connectors for high-volume data and third-party integrations.',
+      'Advanced logic and workflows: intricate code-like logic and custom states solving business problems beyond standard templates.',
+      'Scalability and UI/UX: optimizing apps from MVP to thousands of active users; bridging Figma design to responsive Bubble elements.',
+    ],
+    stack: ['Bubble', 'Claude Code', 'Figma Make', 'Lovable', 'Database architecture', 'API integrations'],
+  },
+  {
+    id: 'blur-studio',
+    role: 'Operations Manager & Full-Stack AI/No-Code Developer',
+    company: 'Blur Studio',
+    location: 'Remote',
+    startDate: 'Sep 2025',
+    endDate: 'May 2026',
+    type: 'remote',
+    highlights: [
+      'Led discovery, translating client visions into Project Playbooks, prototypes and task roadmaps.',
+      'Architected the internal Company OS: SOPs, OKRs, talent pools and leads, plus a Project Management System, a Feedback Rating System and an AI-driven Business Idea Refiner.',
+      'Turned Playbooks into clickable prototypes with Figma Make; deployed scalable apps with Claude Code, Lovable and Bubble.',
+    ],
+    stack: ['Bubble', 'Figma Make', 'Lovable', 'Claude Code', 'Next.js', 'Supabase'],
+  },
+  {
+    id: 'goodspeed',
+    role: 'Bubble Developer',
+    company: 'Goodspeed',
+    location: 'Remote · United Kingdom',
+    startDate: 'Feb 2024',
+    endDate: 'Sep 2024',
+    type: 'remote',
+    highlights: [
+      'Owned the full Bubble.io stack: frontend design, backend workflows, optimized schemas and third-party API integrations.',
+      'Translated Figma prototypes into technical requirements and managed milestones from wireframing to final QA and deployment.',
+    ],
+    stack: ['Bubble', 'API integrations', 'Database architecture'],
+  },
+  {
+    id: 'internships',
+    role: 'Intern · Project Intern',
+    company: 'Bryan Cassady · NTG–UFV · CenTev/UFV',
+    location: 'Belgium (remote) · Viçosa, MG, Brazil',
+    startDate: '2011',
+    endDate: '2022',
+    type: 'hybrid',
+    highlights: [
+      'Built a company scalability and innovation-readiness assessment tool grounded in 10+ years of research.',
+      'Authored 8 Technological Plan worksheets and a technical, economic and environmental feasibility study that guided executive investment decisions.',
+    ],
+  },
+];

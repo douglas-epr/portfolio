@@ -8,12 +8,18 @@ export function observeChapters(callback: ChapterCallback): () => void {
   const sections = Array.from(document.querySelectorAll<HTMLElement>('main > section[id]'));
   if (sections.length === 0) return () => undefined;
 
+  // Entries only arrive on threshold crossings, so a chapter that entered the
+  // reading zone earlier is not in the batch that reports its neighbour leaving.
+  // Keep the zone's occupants across callbacks and pick the one covering most of it.
+  const inZone = new Map<HTMLElement, number>();
   const observer = new IntersectionObserver(
     (entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting);
-      if (visible.length === 0) return;
-      const top = visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      const section = top?.target as HTMLElement | undefined;
+      for (const entry of entries) {
+        const el = entry.target as HTMLElement;
+        if (entry.isIntersecting) inZone.set(el, entry.intersectionRect.height);
+        else inZone.delete(el);
+      }
+      const [section] = [...inZone.entries()].sort((a, b) => b[1] - a[1])[0] ?? [];
       if (!section) return;
       callback(section.id, sections.indexOf(section), section);
     },

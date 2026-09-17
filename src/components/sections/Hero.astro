@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import type { Chapter } from '@/data/chapters';
 import { person } from '@/data/person';
 import { build, transcript } from '@/data/build';
+import portrait3d from '@/assets/portrait-3d.jpg';
 
 interface Props {
   chapters: Chapter[];
@@ -25,7 +27,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
         <aside class="spec" aria-labelledby="spec-title">
           <p class="mono spec__label">spec · SITE.md</p>
           <h1 id="spec-title" class="spec__title">{person.name}</h1>
-          <p class="spec__role">{person.title}, Move37 · {person.subtitle}</p>
+          <p class="spec__role">{person.title} · {person.subtitle}</p>
+          <p class="mono spec__status"><span class="spec__pulse" aria-hidden="true"></span>{person.availability}</p>
           <ol class="spec__ac" data-spec-criteria>
             {chapters.map((chapter, index) => (
               <li data-for={chapter.id}>
@@ -47,6 +50,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
             ))}
           </ol>
           <span class="log__caret" aria-hidden="true"></span>
+          <figure class="log__figure" data-sc-tilt="3">
+            <Image src={portrait3d} alt={`3D rendered portrait of ${person.name}`} widths={[420, 640, 960]} sizes="(max-width: 860px) 60vw, 40vw" loading="eager" fetchpriority="high" class="log__render" />
+            <figcaption class="mono log__figcap">render · portrait · from 2 photographs</figcaption>
+          </figure>
           <p class="log__note">Scroll drives the run. Counts come from the site's data files; the JS size is measured from the build and checked by a test.</p>
         </div>
       </div>
@@ -68,7 +75,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .log__lines, .log__caret { flex: none; }
   .spec__label, .log__label { margin: 0 0 var(--sc-4); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
   .spec__title { font-size: clamp(2rem, 1.4rem + 2vw, 3rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.02; margin: 0; }
-  .spec__role { color: var(--ink-soft); margin: var(--sc-2) 0 var(--sc-5); font-size: var(--sc-t-sm); text-wrap: pretty; }
+  .spec__role { color: var(--ink-soft); margin: var(--sc-2) 0 var(--sc-3); font-size: var(--sc-t-sm); text-wrap: pretty; }
+  .spec__status { display: inline-flex; align-items: center; gap: var(--sc-2); margin: 0 0 var(--sc-5); padding: var(--sc-1) var(--sc-3); border: 1px solid var(--hairline-strong); border-radius: var(--sc-r-pill); color: var(--ink); }
+  .spec__pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 50%, transparent); animation: pulse 2.2s var(--sc-ease-out) infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
   .spec__ac { list-style: none; margin: 0; padding: 0; }
   .spec__ac li {
     display: grid; grid-template-columns: 0.85rem 3.4rem minmax(0, 1fr); gap: var(--sc-3); align-items: center;
@@ -90,6 +100,22 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .log__caret { display: inline-block; width: 1.5px; height: 1.1em; background: var(--accent); margin-left: 1.6rem; vertical-align: text-bottom; animation: caret 1s steps(2) infinite; }
   @keyframes caret { 50% { opacity: 0; } }
 
+  /* The render viewport. It takes whatever height the transcript leaves and
+     frames the 3D portrait on the ground colour, one shade under the panel,
+     so it reads as a viewport inside the workspace rather than a photo. */
+  .log__figure {
+    flex: 1 1 auto; min-height: 9rem; margin: var(--sc-4) 0 0; position: relative;
+    display: grid; grid-template-rows: minmax(0, 1fr); overflow: hidden;
+    border: 1px solid var(--hairline); border-radius: var(--sc-r-md); background: var(--ground);
+  }
+  .log__render { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; object-position: 50% 50%; }
+  .log__figcap { position: absolute; left: var(--sc-3); bottom: var(--sc-2); margin: 0; font-size: var(--sc-t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+  @media (min-width: 861px) and (max-height: 820px) {
+    .spec__ac li { padding: var(--sc-1) 0; }
+    .spec__deck { font-size: var(--sc-t-sm); padding-top: var(--sc-4); }
+  }
+
   @media (max-width: 860px) {
     .ws { padding: calc(var(--nav-h) + var(--sc-3)) var(--sc-gutter) var(--sc-3); }
     .ws__frame { max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-3)); }
@@ -103,11 +129,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
     .spec__label, .log__label { margin-bottom: var(--sc-3); }
     .spec__deck { font-size: var(--sc-t-sm); padding-top: var(--sc-3); }
     .log__note { display: none; }
+    .log__figure { flex: 0 0 auto; height: 22svh; min-height: 7rem; margin-top: var(--sc-3); }
+    .log__figcap { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .log__text { max-width: none; }
     .log__prompt { opacity: 1; }
     .log__caret { animation: none; }
+    .spec__pulse { animation: none; }
     .ws__done { opacity: 1; }
   }
 </style>

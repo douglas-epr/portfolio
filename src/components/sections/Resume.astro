@@ -3,12 +3,28 @@ import { experiences } from '@/data/experience';
 import { educations } from '@/data/education';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const developerStart = experiences.find((job) => job.id === 'freelance')?.startDate ?? 'Jan 2022';
-const [startMonth, startYear] = developerStart.split(' ');
-const start = new Date(Number(startYear), MONTHS.indexOf(startMonth ?? 'Jan'), 1);
-const yearsAsDeveloper = Math.round((Date.now() - start.getTime()) / (365.25 * 24 * 3600 * 1000));
+const now = new Date();
+
+/** "Jan 2022" or "2011" → a Date at the first of that month. "Present" → now. */
+function parseDate(value: string): Date {
+  if (value === 'Present') return now;
+  const [a, b] = value.split(' ');
+  if (b === undefined) return new Date(Number(a), 0, 1);
+  return new Date(Number(b), Math.max(0, MONTHS.indexOf(a ?? 'Jan')), 1);
+}
+
+const developerStart = parseDate(experiences.find((job) => job.id === 'freelance')?.startDate ?? 'Jan 2022');
+const yearsAsDeveloper = Math.round((now.getTime() - developerStart.getTime()) / (365.25 * 24 * 3600 * 1000));
 const roleCount = experiences.length;
 const schoolCount = educations.length;
+
+// Real durations, drawn as bars on one shared time axis from the earliest role to today.
+const spans = experiences.map((job) => ({ start: parseDate(job.startDate), end: parseDate(job.endDate) }));
+const axisStart = Math.min(...spans.map((s) => s.start.getTime()));
+const axisEnd = now.getTime();
+const pct = (t: number) => ((t - axisStart) / (axisEnd - axisStart)) * 100;
+const bars = spans.map((s) => ({ offset: pct(s.start.getTime()), width: Math.max(1.5, pct(s.end.getTime()) - pct(s.start.getTime())) }));
+const axisYears = Array.from({ length: now.getFullYear() - new Date(axisStart).getFullYear() + 1 }, (_, i) => new Date(axisStart).getFullYear() + i).filter((y) => y % 5 === 0 || y === now.getFullYear());
 ---
 
 <section id="resume" class="chapter" data-sc-act="flow" data-chapter-title="Career">
@@ -23,11 +39,14 @@ const schoolCount = educations.length;
       </p>
     </header>
 
-    <div class="panel" data-sc-in>
-      <div class="panel__bar"><span>experience · 2026 CV</span><span>{roleCount} rows</span></div>
-      <ol class="roles" data-sc-in data-sc-stagger="80">
+    <div class="panel timeline">
+      <div class="panel__bar"><span>experience · 2026 CV</span><span>{new Date(axisStart).getFullYear()} → today</span></div>
+      <div class="axis mono" aria-hidden="true">
+        {axisYears.map((year) => <span style={`--o: ${pct(new Date(year, 0, 1).getTime())}`}>{year}</span>)}
+      </div>
+      <ol class="roles">
         {experiences.map((job, index) => (
-          <li class="role">
+          <li class="role" data-sc-reveal="left" data-sc-reveal-at={`${(0.06 + index * 0.06).toFixed(2)} ${(0.3 + index * 0.06).toFixed(2)}`}>
             <div class="role__when mono">
               <span>{job.startDate}</span>
               <span>{job.endDate}</span>
@@ -35,6 +54,7 @@ const schoolCount = educations.length;
             <div class="role__who">
               <h3>{job.role}</h3>
               <p class="role__firm">{job.company} <span class="role__loc">· {job.location}</span></p>
+              <div class="role__track" style={`--o: ${bars[index]?.offset.toFixed(2)}; --w: ${bars[index]?.width.toFixed(2)}; --i: ${index}`} aria-hidden="true"><span class="role__fill"></span></div>
               {job.stack ? <p class="role__stack mono">{job.stack.join(' · ')}</p> : null}
             </div>
             <ul class="role__notes">
@@ -47,7 +67,7 @@ const schoolCount = educations.length;
 
     <div class="panel schools" data-sc-in>
       <div class="panel__bar"><span>education</span><span>{schoolCount} rows</span></div>
-      <ol class="schools__list">
+      <ol class="schools__list" data-sc-in data-sc-stagger="70">
         {educations.map((school) => (
           <li>
             <span class="mono">{school.startYear === school.endYear ? school.endYear : `${school.startYear}–${school.endYear}`}</span>
@@ -64,6 +84,11 @@ const schoolCount = educations.length;
   .figures { display: flex; flex-wrap: wrap; gap: var(--sc-5); color: var(--ink-soft); margin: 0; }
   .figures b { font-family: var(--sc-font-text); font-size: var(--sc-t-xl); font-weight: 560; color: var(--ink); margin-right: 0.2em; letter-spacing: -0.02em; }
 
+  .axis { position: relative; height: 1.6rem; margin: 0 var(--sc-4); border-bottom: 1px dashed var(--hairline-strong); color: var(--ink-soft); }
+  .axis span { position: absolute; left: calc(var(--o) * 1%); bottom: 4px; transform: translateX(-50%); }
+  .axis span:first-child { transform: none; }
+  .axis span:last-child { transform: translateX(-100%); }
+
   .roles { list-style: none; margin: 0; padding: 0; }
   .role {
     display: grid; grid-template-columns: 7.5rem minmax(0, 1.1fr) minmax(0, 1.5fr);
@@ -74,7 +99,14 @@ const schoolCount = educations.length;
   .role__who h3 { margin: 0; font-size: var(--sc-t-lg); font-weight: 560; letter-spacing: -0.01em; line-height: 1.2; text-wrap: balance; }
   .role__firm { margin: var(--sc-2) 0 0; font-size: var(--sc-t-sm); }
   .role__loc { color: var(--ink-soft); }
-  .role__stack { margin: var(--sc-4) 0 0; color: var(--ink-soft); line-height: 1.6; }
+  /* The bar is the role's real span on the shared axis; it grows with scroll. */
+  .role__track { position: relative; height: 4px; margin: var(--sc-3) 0 0; background: var(--hairline); border-radius: 2px; overflow: hidden; }
+  .role__fill {
+    position: absolute; top: 0; bottom: 0; left: calc(var(--o) * 1%); width: calc(var(--w) * 1%);
+    background: var(--accent); border-radius: 2px; transform-origin: left center;
+    transform: scaleX(clamp(0, (var(--sc-p, 1) - 0.12 - var(--i) * 0.04) / 0.28, 1));
+  }
+  .role__stack { margin: var(--sc-3) 0 0; color: var(--ink-soft); line-height: 1.6; }
   .role__notes { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--sc-3); color: var(--ink-soft); font-size: var(--sc-t-sm); line-height: 1.55; text-wrap: pretty; }
   .role__notes li { padding-left: var(--sc-4); position: relative; }
   .role__notes li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 0.5rem; height: 1px; background: var(--accent); }
@@ -92,5 +124,8 @@ const schoolCount = educations.length;
     .role__when { display: flex; gap: var(--sc-3); }
     .role__when span + span::before { content: '→ '; }
     .schools__list li { grid-template-columns: 1fr; gap: var(--sc-1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .role__fill { transform: none; }
   }
 </style>

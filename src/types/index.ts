@@ -39,6 +39,8 @@ export interface Skill {
   category: SkillCategory;
   /** Local logo asset, when the tool has one. */
   logo?: ImageMetadata;
+  /** Lucide icon name for entries that are competencies rather than products. */
+  icon?: string;
 }
 
 export interface Experience {
@@ -97,6 +99,8 @@ export interface Person {
   firstName: string;
   title: string;
   subtitle: string;
+  /** What the visitor should know about the job search, in plain words. */
+  availability: string;
   bio: string;
   location: string;
   email: string;

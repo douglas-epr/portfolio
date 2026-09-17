@@ -1,10 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import { person } from '@/data/person';
-import { experiences } from '@/data/experience';
 import { educations } from '@/data/education';
 
-const current = experiences[0];
 const masters = educations[0];
 ---
 
@@ -18,8 +16,8 @@ const masters = educations[0];
         <div class="panel__bar"><span>facts · 2026 CV</span><span>3 rows</span></div>
         <dl class="about__facts">
           <div>
-            <dt>Now</dt>
-            <dd>{current?.role} at {current?.company}, since {current?.startDate}</dd>
+            <dt>Looking for</dt>
+            <dd><span class="about__dot" aria-hidden="true"></span>{person.availability}. A team shipping production AI systems where the work has to hold up.</dd>
           </div>
           <div>
             <dt>Education</dt>
@@ -50,6 +48,7 @@ const masters = educations[0];
   .about__facts > div:last-child { border-bottom: 0; }
   .about__facts dt { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--ink-soft); padding-top: 0.2em; }
   .about__facts dd { margin: 0; font-size: var(--sc-t-sm); line-height: 1.5; }
+  .about__dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: var(--sc-2); vertical-align: middle; }
   .about__figure { margin: 0; }
   .about__frame { aspect-ratio: 4 / 5; overflow: hidden; background: var(--surface-2); }
   .about__frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; scale: 1.08; }

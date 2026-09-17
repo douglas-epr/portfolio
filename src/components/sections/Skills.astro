@@ -1,15 +1,19 @@
 ---
 import { Image } from 'astro:assets';
+import { BrainCircuit, Building2, Database, FileCheck2, Layers, PenTool, Settings2, Users, Workflow } from '@lucide/astro';
 import { skills } from '@/data/skills';
 import type { SkillCategory } from '@/types';
 
 const groups: Array<{ category: SkillCategory; title: string; note: string; wide?: boolean }> = [
-  { category: 'Stack', title: 'Stack', note: 'What the Move37 platforms run on.' },
+  { category: 'Stack', title: 'Stack', note: 'What I ship production systems on.' },
   { category: 'AI Tools', title: 'AI tools', note: 'How I build at speed.' },
   { category: 'Competencies', title: 'Competencies', note: 'From the CV, in its own words.' },
   { category: 'APIs', title: 'APIs integrated', note: 'Each one has shipped inside a client product.', wide: true },
 ];
 const byCategory = (category: SkillCategory) => skills.filter((skill) => skill.category === category);
+const icons = { BrainCircuit, Building2, Database, FileCheck2, Layers, PenTool, Settings2, Users, Workflow } as const;
+type IconName = keyof typeof icons;
+const iconFor = (name?: string) => (name && name in icons ? icons[name as IconName] : null);
 ---
 
 <section id="skills" data-sc-act="pan" data-sc-span="2.6" data-chapter-title="Stack">
@@ -18,7 +22,7 @@ const byCategory = (category: SkillCategory) => skills.filter((skill) => skill.c
       <div class="rail__item rail__lead" style="--i: 0">
         <p class="folio"><b>§04</b> · Stack</p>
         <h2 class="sc-display sc-display--md">Tools, grouped by what they do.</h2>
-        <p class="sc-body">Logos where the tool has one, names where it does not. The rail moves as you scroll; {skills.length} entries in four groups.</p>
+        <p class="sc-body">Products carry their own mark, competencies an icon. The rail moves as you scroll; {skills.length} entries in four groups.</p>
       </div>
       {groups.map((group, index) => {
         const items = byCategory(group.category);
@@ -28,12 +32,21 @@ const byCategory = (category: SkillCategory) => skills.filter((skill) => skill.c
             <div class="rail__body">
               <p class="rail__note">{group.note}</p>
               <ul class="tools">
-                {items.map((skill) => (
-                  <li class="tool">
-                    {skill.logo ? <Image src={skill.logo} alt="" width={20} height={20} class="tool__logo" /> : <span class="tool__mark" aria-hidden="true"></span>}
-                    <span>{skill.name}</span>
-                  </li>
-                ))}
+                {items.map((skill) => {
+                  const Icon = iconFor(skill.icon);
+                  return (
+                    <li class="tool">
+                      {skill.logo ? (
+                        <Image src={skill.logo} alt="" width={20} height={20} class="tool__logo" />
+                      ) : Icon ? (
+                        <span class="tool__icon" aria-hidden="true"><Icon size={16} /></span>
+                      ) : (
+                        <span class="tool__mark" aria-hidden="true"></span>
+                      )}
+                      <span>{skill.name}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -61,8 +74,9 @@ const byCategory = (category: SkillCategory) => skills.filter((skill) => skill.c
   .tools { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
   .rail__item--wide .tools { grid-template-columns: 1fr 1fr; column-gap: var(--sc-5); }
   .tool { display: flex; align-items: center; gap: var(--sc-3); padding: var(--sc-2) 0; border-bottom: 1px solid var(--hairline); font-size: var(--sc-t-sm); }
-  .tool__logo, .tool__mark { width: 20px; height: 20px; flex: none; }
+  .tool__logo, .tool__mark, .tool__icon { width: 20px; height: 20px; flex: none; }
   .tool__logo { object-fit: contain; border-radius: 3px; }
+  .tool__icon { display: grid; place-items: center; color: var(--accent); }
   .tool__mark { display: inline-block; width: 0.55rem; height: 1px; background: var(--accent); margin-inline: 0.3rem; }
 
   /* Items settle in sequence as the rail travels; the lead is exempt. */

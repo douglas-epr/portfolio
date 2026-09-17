@@ -13,8 +13,8 @@ interface Props {
 
 const site = Astro.site?.href.replace(/\/$/, '') ?? 'https://douglasgouveia.dev';
 const {
-  title = 'Douglas Gouveia · Founding Engineer · AI Product Engineer',
-  description = 'Founding Engineer at Move37 building production AI systems for regulated workflows, client money and audit trails. Next.js, TypeScript, Supabase, Cloudflare Workers, Bubble.',
+  title = 'Douglas Gouveia · AI Product Engineer',
+  description = 'AI Product Engineer shipping production AI systems: regulated workflows, source-verified recommendation engines, multi-tenant SaaS. Next.js, TypeScript, Supabase, Cloudflare Workers, Bubble. Open to a new role, remote.',
 } = Astro.props;
 
 const ogImage = `${site}/og-thumbnail.png`;
@@ -25,7 +25,6 @@ const jsonLd = {
   name: person.name,
   url: site,
   jobTitle: person.title,
-  worksFor: { '@type': 'Organization', name: 'Move37' },
   image: ogImage,
   email: `mailto:${person.email}`,
   address: { '@type': 'PostalAddress', addressLocality: 'Ervália', addressRegion: 'MG', addressCountry: 'BR' },
@@ -60,7 +59,7 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Douglas Gouveia, Founding Engineer" />
+    <meta property="og:image:alt" content="Douglas Gouveia, AI Product Engineer" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

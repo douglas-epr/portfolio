@@ -16,7 +16,7 @@ export interface TranscriptLine {
 }
 
 export const build = {
-  measuredAt: '2026-09-16',
+  measuredAt: '2026-09-17',
   /** Gzipped size of every JS file in dist/client/_astro, in KB. Update with scripts/measure-build.mjs. */
   jsGzipKb: 8.7,
   chapters: chapters.length,

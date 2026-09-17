@@ -2,43 +2,65 @@
 import { services } from '@/data/services';
 ---
 
-<section id="services" class="chapter" data-sc-act="flow" data-chapter-title="Services">
-  <div class="sc-wrap services">
-    <header class="services__head" data-sc-in data-sc-stagger="60">
-      <p class="folio"><b>§03</b> · Services</p>
-      <h2 class="sc-display sc-display--md">Six things you can hire me for.</h2>
-      <p class="sc-body">Each one comes with the same method: a written architecture, a data model and acceptance criteria before the first build, and a change log after it.</p>
-    </header>
-    <div class="panel" data-sc-in>
-      <div class="panel__bar"><span>services</span><span>{services.length} rows</span></div>
-      <ol class="clauses" data-sc-in data-sc-stagger="70">
-        {services.map((service, index) => (
-          <li class="clause">
-            <span class="clause__num mono">3.{index + 1}</span>
-            <div>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+<section id="services" data-sc-act="pin" data-sc-span="2.4" data-chapter-title="Services">
+  <div class="services" data-sc-stage>
+    <div class="sc-wrap services__grid">
+      <header class="services__head">
+        <p class="folio"><b>§03</b> · Services</p>
+        <h2 class="sc-display sc-display--md">Six things you can hire me for.</h2>
+        <p class="sc-body">Each one comes with the same method: a written architecture, a data model and acceptance criteria before the first build, and a change log after it.</p>
+        <p class="services__counter mono" aria-hidden="true">
+          {services.map((_, index) => <span class="services__dot" style={`--i: ${index}`}></span>)}
+        </p>
+      </header>
+      <div class="panel services__panel">
+        <div class="panel__bar"><span>services</span><span>{services.length} rows</span></div>
+        <ol class="clauses">
+          {services.map((service, index) => (
+            <li class="clause" style={`--i: ${index}`}>
+              <span class="clause__num mono">3.{index + 1}</span>
+              <div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .services { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
-  .services__head { display: grid; gap: var(--sc-3); position: sticky; top: calc(var(--nav-h) + var(--sc-6)); }
+  .services { display: flex; align-items: center; padding-top: var(--nav-h); }
+  .services__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .services__head { display: grid; gap: var(--sc-3); }
   .services__head .sc-display { max-width: 16ch; }
-  .clauses { list-style: none; margin: 0; padding: 0; }
+  .services__counter { display: flex; gap: var(--sc-2); margin: var(--sc-3) 0 0; }
+  .services__dot { width: 1.6rem; height: 3px; border-radius: 2px; background: var(--hairline-strong); transform-origin: left; }
+  .services__panel { max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-5)); display: grid; grid-template-rows: auto minmax(0, 1fr); }
+  .clauses { list-style: none; margin: 0; padding: 0; overflow: auto; min-height: 0; }
   .clause { display: grid; grid-template-columns: 3rem 1fr; gap: var(--sc-4); padding: var(--sc-4); border-bottom: 1px solid var(--hairline); }
   .clause:last-child { border-bottom: 0; }
   .clause__num { color: var(--accent); padding-top: 0.35em; }
   .clause h3 { margin: 0; font-size: var(--sc-t-lg); font-weight: 560; letter-spacing: -0.01em; }
   .clause p { margin: var(--sc-2) 0 0; color: var(--ink-soft); font-size: var(--sc-t-sm); line-height: 1.55; max-width: 56ch; text-wrap: pretty; }
 
+  /* Each clause lights up in turn as the stage is pinned: the list is read to
+     the visitor at the pace of their own hand. The dots mirror it. */
+  @media (prefers-reduced-motion: no-preference) {
+    .clause, .services__dot { --k: clamp(0, (var(--sc-p, 1) * 7.5 - var(--i) - 0.5), 1); }
+    .clause { opacity: calc(0.28 + 0.72 * var(--k)); transform: translate3d(0, calc((1 - var(--k)) * 12px), 0); }
+    .clause__num { opacity: calc(0.4 + 0.6 * var(--k)); }
+    .services__dot { background: color-mix(in oklab, var(--accent) calc(var(--k) * 100%), var(--hairline-strong)); }
+  }
+  .clause, .services__dot { --sc-p: inherit; }
+
   @media (max-width: 860px) {
-    .services { grid-template-columns: 1fr; }
-    .services__head { position: static; }
+    .services { align-items: flex-start; padding-top: calc(var(--nav-h) + var(--sc-4)); }
+    .services__grid { grid-template-columns: 1fr; gap: var(--sc-4); }
+    .services__head .sc-body { display: none; }
+    .services__panel { max-height: calc(100svh - var(--nav-h) - 13rem); }
+    .clause p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   }
 </style>

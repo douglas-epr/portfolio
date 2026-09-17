@@ -1,0 +1,79 @@
+---
+interface Props {
+  chapters: Array<{ id: string; title: string }>;
+}
+
+const { chapters } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<header class="tabs" data-nav>
+  <a class="tabs__home mono" href="#hero" aria-label="Douglas Gouveia, back to the title page">dg</a>
+  <button class="tabs__toggle mono" type="button" popovertarget="chapter-menu" aria-label="Open chapter menu">chapters</button>
+  <nav aria-label="Chapters">
+    <ol id="chapter-menu" class="tabs__list" popover>
+      {chapters.map((chapter, index) => (
+        <li>
+          <a href={`#${chapter.id}`} data-tab={chapter.id}><span class="mono tabs__index">{pad(index)}</span><span>{chapter.title}</span></a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+</header>
+
+<style>
+  .tabs {
+    position: fixed; inset: 0 0 auto 0; height: var(--nav-h); z-index: var(--sc-z-chrome);
+    display: flex; align-items: center; gap: var(--sc-5);
+    padding: 0 var(--sc-gutter);
+    background: color-mix(in oklab, var(--ground) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .tabs__home {
+    color: var(--ink); text-decoration: none; font-weight: 500; letter-spacing: 0.04em;
+    padding: var(--sc-1) var(--sc-2); border: 1px solid var(--hairline); border-radius: var(--sc-r-sm);
+    background: var(--surface);
+  }
+  .tabs__home:hover { border-color: var(--ink-soft); }
+  .tabs__toggle {
+    margin-left: auto; background: var(--surface); color: var(--ink); border: 1px solid var(--hairline);
+    border-radius: var(--sc-r-sm); padding: var(--sc-2) var(--sc-3); cursor: pointer;
+  }
+  .tabs__toggle:hover { border-color: var(--ink-soft); }
+  .tabs__toggle:active { translate: 0 1px; }
+  nav { margin-left: auto; min-width: 0; }
+  .tabs__list { list-style: none; margin: 0; padding: 0; }
+  .tabs__list a {
+    display: inline-flex; align-items: center; gap: var(--sc-2);
+    color: var(--ink-soft); text-decoration: none; font-size: var(--sc-t-sm);
+    padding: 0 var(--sc-3); height: var(--nav-h); position: relative; white-space: nowrap;
+    transition: color var(--sc-d-fast) var(--sc-ease-out);
+  }
+  .tabs__list a:hover { color: var(--ink); }
+  .tabs__list a[aria-current='true'] { color: var(--ink); }
+  .tabs__list a[aria-current='true']::after {
+    content: ''; position: absolute; left: var(--sc-3); right: var(--sc-3); bottom: -1px; height: 2px; background: var(--accent);
+  }
+  .tabs__index { color: var(--ink-soft); }
+  .tabs__list a[data-done='true'] .tabs__index { color: var(--accent); }
+
+  @media (min-width: 861px) {
+    .tabs__toggle { display: none; }
+    .tabs__list { display: flex; position: static; inset: auto; border: 0; background: none; overflow: visible; }
+  }
+  @media (max-width: 860px) {
+    .tabs { gap: var(--sc-3); }
+    .tabs__list {
+      position: fixed; inset: var(--nav-h) 0 auto 0; width: auto; margin: 0;
+      background: var(--surface); border: 0; border-bottom: 1px solid var(--hairline);
+      padding: var(--sc-3) var(--sc-gutter) var(--sc-4); color: var(--ink);
+      display: none;
+    }
+    .tabs__list:popover-open { display: grid; }
+    .tabs__list::backdrop { background: rgb(21 23 26 / 0.5); }
+    .tabs__list a { height: 2.75rem; padding: 0; font-size: var(--sc-t-base); }
+    .tabs__list a[aria-current='true']::after { display: none; }
+    .tabs__list a[aria-current='true'] .tabs__index { color: var(--accent); }
+  }
+</style>

@@ -10,27 +10,28 @@ const revealFor = (index: number) => {
 };
 ---
 
-<section id="projects" class="ground--dark chapter" data-sc-act="flow" data-chapter-title="Projects">
+<section id="projects" class="chapter" data-sc-act="flow" data-chapter-title="Projects">
   <div class="sc-wrap">
     <header class="chapter__head" data-sc-in data-sc-stagger="60">
       <p class="folio"><b>§05</b> · Projects</p>
-      <h2 class="sc-display sc-display--lg">Eight products, each one shipped.</h2>
-      <p class="sc-body">Marketplaces, a CRM, a fitness subscription, a company operating system. Every label below is a fact: name, category, tool count. Open one for the full record.</p>
+      <h2 class="sc-display sc-display--md">Eight products, each one shipped.</h2>
+      <p class="sc-body">Marketplaces, a CRM, a fitness subscription, a company operating system. Each label is a fact: name, category, tool count. Open one for the full record.</p>
     </header>
 
     <ol class="objects">
       {featured.map((project, index) => (
-        <li class="object">
-          <button class="object__open" type="button" data-project-open={project.id} aria-haspopup="dialog" data-ledger={`${project.name} · ${project.type}`}>
+        <li class="object panel">
+          <button class="object__open" type="button" data-project-open={project.id} aria-haspopup="dialog">
+            <span class="panel__bar"><span>{project.type}</span><span>{project.tools.length} tools</span></span>
             <figure class="object__media" data-sc-reveal={index % 2 === 0 ? 'up' : 'left'} data-sc-reveal-at={revealFor(index)}>
-              <div class="object__frame" data-sc-tilt="5">
+              <div class="object__frame" data-sc-tilt="4">
                 <Image src={project.image} alt="" widths={[480, 960]} sizes="(max-width: 860px) 100vw, 40vw" loading={index < 2 ? 'eager' : 'lazy'} />
               </div>
             </figure>
             <span class="object__label">
-              <span class="object__name sc-display sc-display--md">{project.name}</span>
-              <span class="object__meta mono">{project.type} · {project.tools.length} tools</span>
+              <span class="object__name">{project.name}</span>
               <span class="object__tagline">{project.tagline}</span>
+              <span class="object__cta mono">open record</span>
             </span>
           </button>
         </li>
@@ -41,31 +42,27 @@ const revealFor = (index: number) => {
 </section>
 
 <style>
-  .objects { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 3vw, 3rem) clamp(1.5rem, 4vw, 4rem); }
-  .object:nth-child(4n + 2), .object:nth-child(4n + 3) { margin-top: clamp(1rem, 2.5vw, 2.5rem); }
+  .objects { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2vw, 1.5rem); }
   .object__open {
-    display: grid; gap: var(--sc-4); width: 100%; text-align: left;
+    display: grid; gap: 0; width: 100%; text-align: left;
     background: none; border: 0; padding: 0; color: inherit; cursor: pointer;
   }
+  .object__open .panel__bar { display: flex; }
   .object__media { margin: 0; }
-  .object__frame { aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--hairline); background: #23242a; transition: border-color var(--sc-d-fast) var(--sc-ease-out); }
+  .object__frame { aspect-ratio: 16 / 10; overflow: hidden; background: var(--surface-2); border-bottom: 1px solid var(--hairline); }
   .object__frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 600ms var(--sc-ease-out); }
   .object__open:hover .object__frame img { transform: scale(1.03); }
-  .object__open:hover .object__frame { border-color: var(--sc-ink-soft); }
+  .object:hover { border-color: var(--hairline-strong); }
   .object__open:active { translate: 0 1px; }
-  .object__label { display: grid; gap: var(--sc-1); border-top: 1px solid var(--hairline); padding-top: var(--sc-3); }
-  .object__name { display: block; }
-  .object__meta { color: var(--sc-accent); text-transform: uppercase; letter-spacing: var(--sc-track-wide); }
-  .object__tagline { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
+  .object__label { display: grid; gap: var(--sc-1); padding: var(--sc-4); }
+  .object__name { font-size: var(--sc-t-lg); font-weight: 560; letter-spacing: -0.01em; }
+  .object__tagline { color: var(--ink-soft); font-size: var(--sc-t-sm); }
+  .object__cta { color: var(--accent); margin-top: var(--sc-2); }
 
   @media (min-width: 1400px) {
-    .objects { grid-template-columns: repeat(4, 1fr); gap: clamp(1.5rem, 3vw, 3rem) clamp(1.25rem, 2vw, 2rem); }
-    .object:nth-child(4n + 2), .object:nth-child(4n + 3) { margin-top: 0; }
-    .object:nth-child(even) { margin-top: clamp(1.5rem, 3vw, 3rem); }
-    .object__name { font-size: var(--sc-t-xl); }
+    .objects { grid-template-columns: repeat(4, 1fr); }
   }
   @media (max-width: 860px) {
     .objects { grid-template-columns: 1fr; }
-    .object:nth-child(4n + 2), .object:nth-child(4n + 3) { margin-top: 0; }
   }
 </style>

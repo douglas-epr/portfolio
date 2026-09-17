@@ -1,5 +1,6 @@
 import './scrollcraft.js';
-import { initLedger } from './ledger';
+import { initNav } from './nav';
+import { initTranscript } from './transcript';
 import { initProjectDialog } from './project-dialog';
 import { initContactForm } from './contact-form';
 import { initYouTube } from './youtube';
@@ -8,10 +9,11 @@ function mountEngine(): void {
   window.ScrollCraft.mount(document.body);
 }
 
-// Line splitting measures real line boxes, so the engine mounts after fonts.
+// Line boxes are measured after the faces load.
 document.fonts.ready.then(mountEngine, mountEngine);
 
-initLedger();
+initNav();
+initTranscript();
 initProjectDialog();
 initContactForm();
 initYouTube();

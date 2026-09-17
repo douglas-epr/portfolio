@@ -1,100 +1,113 @@
 ---
+import type { Chapter } from '@/data/chapters';
 import { person } from '@/data/person';
-import { experiences } from '@/data/experience';
+import { build, transcript } from '@/data/build';
 
-const current = experiences[0];
-const revision = new Date().toISOString().slice(0, 7).replace('-', '.');
-const [first, last] = person.name.split(' ');
+interface Props {
+  chapters: Chapter[];
+}
+
+const { chapters } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<section id="hero" class="ground--paper" data-sc-act="pin" data-sc-span="3" data-chapter-title="Title page" aria-label="Title page">
-  <div class="title" data-sc-stage>
-    <div class="title__meta" data-sc-cue="0 1 0 0.04">
-      <span>Document · {person.name}</span>
-      <span>Rev. {revision}</span>
+<section id="hero" data-sc-act="pin" data-sc-span="3" data-chapter-title="Title page" aria-label="Title page">
+  <div class="ws" data-sc-stage>
+    <div class="ws__frame panel">
+      <header class="panel__bar ws__bar">
+        <span>douglasgouveia.dev · workspace</span>
+        <span class="ws__status">
+          <span class="ws__run" data-sc-cue="0 0.92 0 0.05"><b>●</b> run in progress</span>
+          <span class="ws__done" aria-hidden="true"><b>✓</b> run complete</span>
+        </span>
+      </header>
+      <div class="ws__split">
+        <aside class="spec" aria-labelledby="spec-title">
+          <p class="mono spec__label">spec · SITE.md</p>
+          <h1 id="spec-title" class="spec__title">{person.name}</h1>
+          <p class="spec__role">{person.title}, Move37 · {person.subtitle}</p>
+          <ol class="spec__ac" data-spec-criteria>
+            {chapters.map((chapter, index) => (
+              <li data-for={chapter.id}>
+                <span class="spec__tick" aria-hidden="true"></span>
+                <span class="mono spec__id">AC-{pad(index + 1)}</span>
+                <a href={`#${chapter.id}`}>{chapter.criterion}</a>
+              </li>
+            ))}
+          </ol>
+          <p class="spec__deck">I build production AI systems for regulated workflows, client money and audit trails. None of it gets improvised. This page is one of those systems: the run that built it plays back as you scroll.</p>
+        </aside>
+        <div class="log" role="log" aria-label="Build record of this site" data-transcript data-sc-verify-state="ready|-1|0|0">
+          <p class="mono log__label">agent · build record · {build.measuredAt}</p>
+          <ol class="log__lines">
+            {transcript.map((line) => (
+              <li class="log__line" style={`--t0:${line.t0};--dt:${line.dt};--len:${line.text.length}`} data-t0={line.t0} data-dt={line.dt} data-len={line.text.length}>
+                <span class="log__prompt" aria-hidden="true">&gt;</span><span class="log__text">{line.text}</span>
+              </li>
+            ))}
+          </ol>
+          <span class="log__caret" aria-hidden="true"></span>
+          <p class="log__note">Scroll drives the run. Counts come from the site's data files; the JS size is measured from the build and checked by a test.</p>
+        </div>
+      </div>
     </div>
-
-    <h1 class="title__name sc-display" data-sc-cue="0 1 0 0.05">
-      {first}<br /><em>{last}</em>
-    </h1>
-
-    <p class="title__deck" data-sc-cue="0.06 1 0.1 0.05">
-      I build production AI systems for regulated workflows, client money and audit trails. None of it gets improvised.
-    </p>
-
-    <dl class="title__block" data-sc-cue="0.12 1 0.08 0.05">
-      <div data-sc-cue="0.2 1 0.08 0.05">
-        <dt>Title</dt>
-        <dd data-ledger={`${current?.role} · ${current?.company} · ${current?.startDate.slice(-4)}`} data-ledger-at="0.26">{person.title}, {current?.company}</dd>
-      </div>
-      <div data-sc-cue="0.3 1 0.08 0.05">
-        <dt>Also</dt>
-        <dd data-ledger="Senior Certified Bubble Developer" data-ledger-at="0.36">{person.subtitle}</dd>
-      </div>
-      <div data-sc-cue="0.4 1 0.08 0.05">
-        <dt>Base</dt>
-        <dd data-ledger={`${person.location} · remote`} data-ledger-at="0.46">{person.location} · remote</dd>
-      </div>
-      <div data-sc-cue="0.5 1 0.08 0.05">
-        <dt>Contact</dt>
-        <dd><a class="text-link" href="#contact">Get in touch</a></dd>
-      </div>
-    </dl>
   </div>
 </section>
 
 <style>
-  .title {
-    display: flex;
-    flex-direction: column;
-    padding: clamp(1.5rem, 4vh, 3rem) var(--sc-gutter) clamp(1.5rem, 4vh, 3rem);
+  .ws { display: flex; padding: calc(var(--nav-h) + var(--sc-4)) var(--sc-gutter) var(--sc-4); }
+  .ws__frame { width: 100%; max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-4)); display: grid; grid-template-rows: auto minmax(0, 1fr); }
+  .ws__status { display: inline-grid; justify-items: end; }
+  .ws__run, .ws__done { grid-area: 1 / 1; white-space: nowrap; }
+  .ws__done { color: var(--ink); opacity: clamp(0, (var(--sc-p, 0) - 0.93) * 40, 1); }
+  .ws__split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); min-height: 0; }
+  .spec, .log { padding: var(--sc-5); min-height: 0; overflow: auto; display: flex; flex-direction: column; }
+  .spec { border-right: 1px solid var(--hairline); }
+  .spec__deck { margin: auto 0 0; padding-top: var(--sc-5); font-size: var(--sc-t-base); line-height: 1.5; color: var(--ink); max-width: 46ch; text-wrap: pretty; }
+  .log__note { margin: auto 0 0; padding-top: var(--sc-5); font-family: var(--sc-font-text); font-size: var(--sc-t-sm); color: var(--ink-soft); max-width: 46ch; text-wrap: pretty; }
+  .log__lines, .log__caret { flex: none; }
+  .spec__label, .log__label { margin: 0 0 var(--sc-4); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
+  .spec__title { font-size: clamp(2rem, 1.4rem + 2vw, 3rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.02; margin: 0; }
+  .spec__role { color: var(--ink-soft); margin: var(--sc-2) 0 var(--sc-5); font-size: var(--sc-t-sm); text-wrap: pretty; }
+  .spec__ac { list-style: none; margin: 0; padding: 0; }
+  .spec__ac li {
+    display: grid; grid-template-columns: 0.85rem 3.4rem minmax(0, 1fr); gap: var(--sc-3); align-items: center;
+    padding: var(--sc-2) 0; border-bottom: 1px solid var(--hairline); font-size: var(--sc-t-sm); color: var(--ink-soft);
+    transition: color var(--sc-d-base) var(--sc-ease-out);
   }
-  .title__meta {
-    display: flex; justify-content: space-between; gap: var(--sc-4);
-    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs);
-    letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--sc-ink-soft);
-  }
-  .title__name {
-    font-size: clamp(3.4rem, 13.5vw, 11.5rem);
-    line-height: 0.9;
-    letter-spacing: -0.025em;
-    margin: clamp(1.5rem, 5vh, 3.5rem) 0 0;
-  }
-  .title__name em { font-style: italic; }
-  .title__deck {
-    max-width: 42ch;
-    font-size: var(--sc-t-lg);
-    line-height: 1.4;
-    margin: clamp(1.25rem, 4vh, 2.5rem) 0 0;
-    color: var(--sc-ink);
-    text-wrap: pretty;
-  }
-  .title__block {
-    margin: auto 0 0;
-    padding-top: var(--sc-5);
-    border-top: 1px solid var(--sc-ink);
-    border-bottom: 1px solid var(--sc-ink);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding-top: 0;
-  }
-  .title__block > div { padding: var(--sc-3) var(--sc-4) var(--sc-3) 0; border-right: 1px solid var(--hairline); }
-  .title__block > div + div { padding-left: var(--sc-4); }
-  .title__block > div:last-child { border-right: 0; }
-  .title__block dt {
-    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs);
-    letter-spacing: var(--sc-track-wide); text-transform: uppercase; color: var(--sc-ink-soft);
-    margin: 0 0 var(--sc-1);
-  }
-  .title__block dd { margin: 0; font-size: var(--sc-t-sm); line-height: 1.4; text-wrap: pretty; }
+  .spec__ac li:last-child { border-bottom: 0; }
+  .spec__tick { width: 12px; height: 12px; border: 1px solid var(--ink-soft); border-radius: 2px; transition: background var(--sc-d-base) var(--sc-ease-out), border-color var(--sc-d-base) var(--sc-ease-out); }
+  .spec__ac li[data-done='true'] { color: var(--ink); }
+  .spec__ac li[data-done='true'] .spec__tick { background: var(--accent); border-color: var(--accent); }
+  .spec__ac a { color: inherit; text-decoration: none; }
+  .spec__ac a:hover, .spec__ac a:focus-visible { color: var(--accent); }
+
+  .log { font-family: var(--sc-font-mono); }
+  .log__lines { list-style: none; margin: 0; padding: 0; font-size: var(--sc-t-sm); line-height: 1.9; }
+  .log__line { --x: clamp(0, (var(--sc-p, 0) - var(--t0)) / var(--dt), 1); display: flex; gap: var(--sc-3); white-space: nowrap; }
+  .log__prompt { color: var(--accent); opacity: calc(0.25 + 0.75 * clamp(0, var(--x) * 40, 1)); }
+  .log__text { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; max-width: calc(var(--x) * var(--len) * 1ch); }
+  .log__caret { display: inline-block; width: 1.5px; height: 1.1em; background: var(--accent); margin-left: 1.6rem; vertical-align: text-bottom; animation: caret 1s steps(2) infinite; }
+  @keyframes caret { 50% { opacity: 0; } }
 
   @media (max-width: 860px) {
-    .title__name { font-size: clamp(3rem, 17vw, 5.4rem); }
-    .title__deck { font-size: var(--sc-t-base); }
-    .title__block { grid-template-columns: 1fr 1fr; margin-top: clamp(2rem, 8vh, 5rem); margin-bottom: auto; }
-    .title__block > div { border-right: 0; padding-left: 0; border-top: 1px solid var(--hairline); }
-    .title__block > div:nth-child(-n + 2) { border-top: 0; }
-    .title__block > div:nth-child(odd) { padding-right: var(--sc-4); border-right: 1px solid var(--hairline); }
-    .title__block > div:nth-child(even) { padding-left: var(--sc-4); }
+    .ws { padding: calc(var(--nav-h) + var(--sc-3)) var(--sc-gutter) var(--sc-3); }
+    .ws__frame { max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-3)); }
+    .ws__split { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
+    .log { order: -1; border-bottom: 1px solid var(--hairline); padding: var(--sc-4); }
+    .spec { border-right: 0; padding: var(--sc-4); }
+    .log__lines { font-size: var(--sc-t-xs); line-height: 1.8; }
+    .spec__title { font-size: var(--sc-t-xl); }
+    .spec__role { margin-bottom: var(--sc-3); }
+    .spec__ac li { padding: var(--sc-1) 0; font-size: var(--sc-t-xs); }
+    .spec__label, .log__label { margin-bottom: var(--sc-3); }
+    .spec__deck { font-size: var(--sc-t-sm); padding-top: var(--sc-3); }
+    .log__note { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .log__text { max-width: none; }
+    .log__prompt { opacity: 1; }
+    .log__caret { animation: none; }
+    .ws__done { opacity: 1; }
   }
 </style>

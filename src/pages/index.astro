@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Ledger from '@/components/Ledger.astro';
+import Nav from '@/components/Nav.astro';
 import Hero from '@/components/sections/Hero.astro';
 import About from '@/components/sections/About.astro';
 import Resume from '@/components/sections/Resume.astro';
@@ -10,32 +10,14 @@ import Projects from '@/components/sections/Projects.astro';
 import Testimonials from '@/components/sections/Testimonials.astro';
 import Tutorials from '@/components/sections/Tutorials.astro';
 import Contact from '@/components/sections/Contact.astro';
-import { experiences } from '@/data/experience';
-import { projects } from '@/data/projects';
-import { testimonials } from '@/data/testimonials';
-
-const chapters = [
-  { id: 'hero', title: 'Title page' },
-  { id: 'about', title: 'About' },
-  { id: 'resume', title: 'Career' },
-  { id: 'services', title: 'Services' },
-  { id: 'skills', title: 'Stack' },
-  { id: 'projects', title: 'Projects' },
-  { id: 'testimonials', title: 'Clients' },
-  { id: 'tutorials', title: 'Teaching' },
-  { id: 'contact', title: 'Contact' },
-];
-
-// Facts the ledger can stamp: 3 on the title page, 1 in About, one per role,
-// one for the services list, 4 stack groups, one per project, one per client,
-// one for the tutorials list.
-const factCount = 3 + 1 + experiences.length + 1 + 4 + projects.length + testimonials.length + 1;
+import { chapters } from '@/data/chapters';
 ---
 
 <BaseLayout>
   <a class="skip" href="#about">Skip to content</a>
+  <Nav chapters={chapters} />
   <main class="page-main" id="top">
-    <Hero />
+    <Hero chapters={chapters} />
     <About />
     <Resume />
     <Services />
@@ -45,10 +27,4 @@ const factCount = 3 + 1 + experiences.length + 1 + 4 + projects.length + testimo
     <Tutorials />
     <Contact />
   </main>
-  <Ledger chapters={chapters} factCount={factCount} />
 </BaseLayout>
-
-<style>
-  .skip { position: absolute; left: var(--sc-4); top: -100%; z-index: 100; background: var(--sc-ink); color: var(--paper); padding: var(--sc-2) var(--sc-4); }
-  .skip:focus { top: var(--sc-4); }
-</style>

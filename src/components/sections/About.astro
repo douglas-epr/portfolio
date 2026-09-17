@@ -10,14 +10,14 @@ const masters = educations[0];
   <div class="sc-wrap about">
     <div class="about__copy sc-stack" data-sc-in data-sc-stagger="70">
       <p class="folio"><b>§01</b> · About</p>
-      <h2 class="sc-display sc-display--md">Spec first. Then the code, and an AI to write most of it.</h2>
+      <h2 class="sc-display sc-display--md">Spec first. Then a system that holds up in production.</h2>
       <p class="about__bio">{person.bio}</p>
       <div class="panel">
         <div class="panel__bar"><span>facts · 2026 CV</span><span>3 rows</span></div>
         <dl class="about__facts">
           <div>
-            <dt>Looking for</dt>
-            <dd><span class="about__dot" aria-hidden="true"></span>{person.availability}. A team shipping production AI systems where the work has to hold up.</dd>
+            <dt>Next role</dt>
+            <dd><span class="about__dot" aria-hidden="true"></span>{person.availability}. A team shipping AI products that have to hold up in front of customers, auditors or both.</dd>
           </div>
           <div>
             <dt>Education</dt>
@@ -41,7 +41,8 @@ const masters = educations[0];
 
 <style>
   .about { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 24rem); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
-  .about__bio { color: var(--ink-soft); max-width: var(--sc-measure); text-wrap: pretty; margin: 0; }
+  .about__copy .sc-display { margin-bottom: var(--sc-2); }
+  .about__bio { color: var(--ink-soft); max-width: var(--sc-measure); text-wrap: pretty; margin: var(--sc-5) 0 0; }
   .about__copy .panel { margin-top: var(--sc-6); max-width: 40rem; }
   .about__facts { margin: 0; display: grid; }
   .about__facts > div { display: grid; grid-template-columns: 7rem 1fr; gap: var(--sc-4); padding: var(--sc-3) var(--sc-4); border-bottom: 1px solid var(--hairline); }

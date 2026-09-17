@@ -21,8 +21,8 @@ const iconFor = (name?: string) => (name && name in icons ? icons[name as IconNa
     <div class="rail" data-sc-pan="0.05">
       <div class="rail__item rail__lead" style="--i: 0">
         <p class="folio"><b>§04</b> · Stack</p>
-        <h2 class="sc-display sc-display--md">Tools, grouped by what they do.</h2>
-        <p class="sc-body">Products carry their own mark, competencies an icon. The rail moves as you scroll; {skills.length} entries in four groups.</p>
+        <h2 class="sc-display sc-display--md">The stack behind the shipped work.</h2>
+        <p class="sc-body">Every product on this rail runs inside something I shipped. {skills.length} entries in four groups; the rail moves as you scroll.</p>
       </div>
       {groups.map((group, index) => {
         const items = byCategory(group.category);

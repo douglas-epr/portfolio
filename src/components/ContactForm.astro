@@ -23,13 +23,13 @@ import { person } from '@/data/person';
     </div>
     <div class="composer__foot">
       <p class="composer__error mono" data-contact-error role="alert"></p>
-      <button class="send" type="submit"><span class="mono">send</span> <span aria-hidden="true">↵</span></button>
+      <button class="send" type="submit"><span class="mono">send message</span> <span aria-hidden="true">↵</span></button>
     </div>
     <noscript><p class="mono composer__noscript">JavaScript is off. Email me at <a class="text-link" href={`mailto:${person.email}`}>{person.email}</a>.</p></noscript>
   </form>
   <div class="composer__sent">
     <p class="composer__ok">Received.</p>
-    <p class="sc-body">Your message is in my inbox. I answer within two working days.</p>
+    <p class="sc-body">Your message is in my inbox. The reply comes from me, not an autoresponder.</p>
     <button class="text-link reset" type="button" data-contact-reset>Send another</button>
   </div>
 </div>

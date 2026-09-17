@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import avatar from '@/assets/portrait-3d.jpg';
+
 interface Props {
   chapters: Array<{ id: string; title: string }>;
 }
@@ -8,7 +11,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <header class="tabs" data-nav>
-  <a class="tabs__home mono" href="#hero" aria-label="Douglas Gouveia, back to the title page">dg</a>
+  <a class="tabs__home" href="#hero" aria-label="Douglas Gouveia, back to the title page">
+    <Image src={avatar} alt="" width={32} height={32} densities={[1, 2]} loading="eager" class="tabs__avatar" />
+  </a>
   <button class="tabs__toggle mono" type="button" popovertarget="chapter-menu" aria-label="Open chapter menu">chapters</button>
   <nav aria-label="Chapters">
     <ol id="chapter-menu" class="tabs__list" popover>
@@ -31,11 +36,12 @@ const pad = (n: number) => String(n).padStart(2, '0');
     border-bottom: 1px solid var(--hairline);
   }
   .tabs__home {
-    color: var(--ink); text-decoration: none; font-weight: 500; letter-spacing: 0.04em;
-    padding: var(--sc-1) var(--sc-2); border: 1px solid var(--hairline); border-radius: var(--sc-r-sm);
-    background: var(--surface);
+    display: grid; place-items: center; width: 36px; height: 36px; flex: none;
+    border: 1px solid var(--hairline); border-radius: 50%; background: var(--ground); overflow: hidden;
+    transition: border-color var(--sc-d-fast) var(--sc-ease-out);
   }
-  .tabs__home:hover { border-color: var(--ink-soft); }
+  .tabs__home:hover, .tabs__home:focus-visible { border-color: var(--accent); }
+  .tabs__avatar { display: block; width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; scale: 1.15; }
   .tabs__toggle {
     margin-left: auto; background: var(--surface); color: var(--ink); border: 1px solid var(--hairline);
     border-radius: var(--sc-r-sm); padding: var(--sc-2) var(--sc-3); cursor: pointer;

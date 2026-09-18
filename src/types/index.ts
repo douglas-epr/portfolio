@@ -3,6 +3,8 @@ import type { ImageMetadata } from 'astro';
 export type ProjectType =
   | 'SaaS'
   | 'SaaS (CRM)'
+  | 'SaaS (Accounting)'
+  | 'SaaS (Content Operations)'
   | 'SaaS (Fitness & Wellness)'
   | 'Marketplace'
   | 'Social Network'

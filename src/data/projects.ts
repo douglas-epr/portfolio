@@ -1,4 +1,6 @@
 import type { Project } from '@/types';
+import accountancyAutomations from '@/assets/projects/accountancy-automations.png';
+import socialBooster from '@/assets/projects/social-booster.jpg';
 import bellmade from '@/assets/projects/bellmade.jpg';
 import salesAbx from '@/assets/projects/sales-abx.png';
 import blurStudioTool from '@/assets/projects/blur-studio-tool.png';
@@ -12,6 +14,91 @@ import testimonyEvencourt from '@/assets/projects/testimony-evencourt.png';
 import testimonyCoachfully from '@/assets/projects/testimony-coachfully.png';
 
 export const projects: Project[] = [
+  {
+    id: 'accountancy-automations',
+    name: 'Accountancy Automations',
+    tagline: 'AI Working Papers for UK Year-End Accounts',
+    type: 'SaaS (Accounting)',
+    description:
+      'Accountancy Automations prepares working papers for UK year-end accounts. It runs the rules-based prep a junior does before a partner reviews the file: it pulls ledger data from FreeAgent and Xero, proves each balance-sheet line against its supporting evidence, drafts proposed journals, raises client and reviewer queries, and assembles a partner-ready review pack with a full audit trail.\n\nThe system proposes and a person disposes. It never posts to a live ledger, sends a client email or files a return without a named human approving it in the app. Every adjustment is a Prove, a Propose, a Query or a Note.\n\nThe year-end job runs in four stages, with bank reconciliation as the hard gate:\n\n- Readiness: pull the ledger, check the file, infer the required documents\n- Documents: request, track and normalise client paperwork\n- Working papers: reconcile the bank, prove each balance-sheet line, run the P&L interview\n- Review pack: findings grouped by output type, with a confidence overlay for the partner\n\nAround that job sit daily bookkeeping with human-approved write-back, an approval-gated client email outbox, grounded reply drafting for inbound queries, and VAT working papers with a twelve-check return checker. Built as multi-tenant SaaS from the database up and live in production on the pilot practice.',
+    keyFeatures: [
+      'Four-stage year-end job: readiness, documents, working papers, review pack',
+      'Bank reconciliation as the hard gate, matching balances and transactions against the extracted statement',
+      'Proved schedules for director loan accounts, trade debtors and fixed assets',
+      'Daily bookkeeping that codes transactions on ledger precedent and writes back after in-app approval',
+      'Approval-gated client email, with reply drafting that rejects any figure outside the facts pack',
+      'VAT working paper plus a twelve-check VAT return checker with a materiality filter',
+      'Partner review pack with reviewer confidence overlay and a full audit trail',
+      'Multi-tenant admin console, seeded Test Mode tenant, in-app manual and copilot',
+    ],
+    tools: [
+      'Claude Code',
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Supabase',
+      'Cloudflare Workers',
+      'OpenNext',
+      'Claude API',
+      'OpenRouter',
+      'ExcelJS',
+      'Sentry',
+      'FreeAgent API',
+      'Xero API',
+      'Dropbox API',
+      'Microsoft Graph API',
+      'Gmail API',
+      'Companies House API',
+    ],
+    image: accountancyAutomations,
+    websiteUrl: 'https://accountancy.move37.fun',
+    youtubeUrls: ['https://youtu.be/bMqtU37lfN4'],
+    featured: true,
+  },
+  {
+    id: 'social-booster',
+    name: 'Social Booster',
+    tagline: 'Content Operations Platform with Three AI Studios',
+    type: 'SaaS (Content Operations)',
+    description:
+      'Social Booster is a multi-tenant content operations platform. A company signs up, operates its own workspace, and runs the whole content operation in one control panel: produce the content, decide what to make from what performs, review and schedule it, publish it, and measure what it did.\n\nThree AI studios produce finished content:\n\n- AI Videos: chat plans a faceless video, then scene beats render with voice, music and styled captions\n- AI Carousels: chat becomes a branded slide deck, exported and scheduled\n- Clips: long footage and streams cut into ranked, captioned 9:16 clips, with an edit studio\n\nTwo human gates bracket the machine. Nothing moves past Gate 1 without a reviewer quality decision on the idea, and every piece of footage gets an approve or reject on Content Review before it reaches the calendar. Agents never judge what is good enough and never publish on their own.\n\nUnder the surface runs an in-house orchestrator and state engine: seven agent squads on a status-driven state machine that watches the database, dispatches the right agent, manages async render jobs, enforces the safety spine and writes an audit row on every transition.',
+    keyFeatures: [
+      'AI Video Studio: chat-planned scene beats rendered with voice, music and captions',
+      'AI Carousel Studio: chat to a branded, exportable slide deck',
+      'Clips Studio: long footage and streams cut into ranked vertical clips with an edit studio',
+      'Decode engine that reads winners against near-losers and returns a ranked idea menu',
+      'Two human approval gates: idea sign-off and per-footage content review',
+      'Calendar, scheduling and publishing to six platforms through one internal wrapper',
+      'Scoreboard that closes each cycle with a repeat, kill or test call',
+      'Multi-tenant isolation with row-level security, consent records and an audit trail',
+    ],
+    tools: [
+      'Claude Code',
+      'Next.js',
+      'TypeScript',
+      'Tailwind CSS',
+      'Supabase',
+      'Cloudflare Workers',
+      'OpenRouter',
+      'Claude API',
+      'OpenAI API',
+      'Gemini API',
+      'Bunny Stream',
+      'Zernio API',
+      'ElevenLabs API',
+      'Higgsfield',
+      'Apify API',
+      'Remotion',
+      'FFmpeg',
+      'Whisper',
+      'Sentry',
+    ],
+    image: socialBooster,
+    websiteUrl: 'https://lp-social-booster.f3importers.workers.dev',
+    youtubeUrls: ['https://youtu.be/LPlysNrLurE'],
+    featured: true,
+  },
   {
     id: 'bellmade',
     name: 'Bellmade',

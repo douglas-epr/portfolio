@@ -24,3 +24,6 @@ _backup/
 /scrollcraft/
 /design-explorations/
 /lab/
+
+# Playwright MCP screenshots (local verification only)
+/.playwright-mcp/

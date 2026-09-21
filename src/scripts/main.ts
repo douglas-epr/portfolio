@@ -4,6 +4,7 @@ import { initTranscript } from './transcript';
 import { initProjectDialog } from './project-dialog';
 import { initContactForm } from './contact-form';
 import { initYouTube } from './youtube';
+import { initAvatar } from './avatar';
 
 function mountEngine(): void {
   window.ScrollCraft.mount(document.body);
@@ -17,3 +18,4 @@ initTranscript();
 initProjectDialog();
 initContactForm();
 initYouTube();
+initAvatar();

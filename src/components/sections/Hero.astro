@@ -1,47 +1,32 @@
 ---
 import { Image } from 'astro:assets';
-import type { Chapter } from '@/data/chapters';
 import { person } from '@/data/person';
 import { build, transcript } from '@/data/build';
 import portrait3d from '@/assets/portrait-3d.jpg';
-
-interface Props {
-  chapters: Chapter[];
-}
-
-const { chapters } = Astro.props;
-const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <section id="hero" data-sc-act="pin" data-sc-span="3" data-chapter-title="Title page" aria-label="Title page">
   <div class="ws" data-sc-stage>
-    <div class="ws__frame panel">
-      <header class="panel__bar ws__bar">
-        <span>douglasgouveia.dev · workspace</span>
-        <span class="ws__status">
-          <span class="ws__run" data-sc-cue="0 0.92 0 0.05"><b>●</b> run in progress</span>
-          <span class="ws__done" aria-hidden="true"><b>✓</b> run complete</span>
-        </span>
-      </header>
-      <div class="ws__split">
-        <aside class="spec" aria-labelledby="spec-title">
-          <p class="mono spec__label">spec · SITE.md</p>
-          <h1 id="spec-title" class="spec__title">{person.name}</h1>
-          <p class="spec__role">{person.title} · {person.subtitle}</p>
-          <p class="mono spec__status"><span class="spec__pulse" aria-hidden="true"></span>{person.availability}</p>
-          <ol class="spec__ac" data-spec-criteria>
-            {chapters.map((chapter, index) => (
-              <li data-for={chapter.id}>
-                <span class="spec__tick" aria-hidden="true"></span>
-                <span class="mono spec__id">AC-{pad(index + 1)}</span>
-                <a href={`#${chapter.id}`}>{chapter.criterion}</a>
-              </li>
-            ))}
-          </ol>
-          <p class="spec__deck">I turn an AI idea into a production system a regulator can read. The spec, the data model and the acceptance criteria come before the first line of code. This page is one of those systems: the run that built it plays back as you scroll.</p>
-        </aside>
+    <div class="hero panel">
+      <figure class="stage">
+        <Image src={portrait3d} alt={`3D avatar of ${person.name}`} widths={[480, 825]} sizes="(max-width: 860px) 100vw, 50vw" loading="eager" fetchpriority="high" class="stage__render" />
+        <!-- The rigged model mounts here once /avatar.glb exists: add data-src="/avatar.glb" (and data-rotate if it does not face +Z). Without data-src the still render stands alone. -->
+        <div class="stage__avatar" data-avatar aria-hidden="true"><canvas class="stage__canvas"></canvas></div>
+        <figcaption class="mono stage__cap">render · 3D avatar · from 2 photographs</figcaption>
+      </figure>
+      <aside class="spec" aria-labelledby="spec-title">
+        <p class="mono spec__label">{person.title}</p>
+        <h1 id="spec-title" class="spec__title">{person.name}</h1>
+        <p class="spec__role">{person.subtitle}.</p>
+        <p class="mono spec__status"><span class="spec__pulse" aria-hidden="true"></span>{person.availability}</p>
         <div class="log" role="log" aria-label="Build record of this site" data-transcript data-sc-verify-state="ready|-1|0|0">
-          <p class="mono log__label">agent · build record · {build.measuredAt}</p>
+          <p class="mono log__label">
+            <span>agent · build record<span class="log__date"> · {build.measuredAt}</span></span>
+            <span class="log__status">
+              <span class="log__run" data-sc-cue="0 0.92 0 0.05"><b>●</b> run in progress</span>
+              <span class="log__done" aria-hidden="true"><b>✓</b> run complete</span>
+            </span>
+          </p>
           <ol class="log__lines">
             {transcript.map((line) => (
               <li class="log__line" style={`--t0:${line.t0};--dt:${line.dt};--len:${line.text.length}`} data-t0={line.t0} data-dt={line.dt} data-len={line.text.length}>
@@ -49,100 +34,105 @@ const pad = (n: number) => String(n).padStart(2, '0');
               </li>
             ))}
           </ol>
-          <span class="log__caret" aria-hidden="true"></span>
-          <figure class="log__figure" data-sc-tilt="3">
-            <Image src={portrait3d} alt={`3D rendered portrait of ${person.name}`} widths={[420, 640, 960]} sizes="(max-width: 860px) 60vw, 40vw" loading="eager" fetchpriority="high" class="log__render" />
-            <figcaption class="mono log__figcap">render · portrait · from 2 photographs</figcaption>
-          </figure>
-          <p class="log__note">Scroll drives the run. Counts come from the site's data files; the JS size is measured from the build and checked by a test.</p>
         </div>
-      </div>
+        <div class="spec__ctas">
+          <a class="mono hero__cta hero__cta--fill" href="#projects">See the projects</a>
+          <a class="mono hero__cta" href="#contact">Contact</a>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
 <style>
   .ws { display: flex; padding: calc(var(--nav-h) + var(--sc-4)) var(--sc-gutter) var(--sc-4); }
-  .ws__frame { width: 100%; max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-4)); display: grid; grid-template-rows: auto minmax(0, 1fr); }
-  .ws__status { display: inline-grid; justify-items: end; }
-  .ws__run, .ws__done { grid-area: 1 / 1; white-space: nowrap; }
-  .ws__done { color: var(--ink); opacity: clamp(0, (var(--sc-p, 0) - 0.93) * 40, 1); }
-  .ws__split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); min-height: 0; }
-  .spec, .log { padding: var(--sc-5); min-height: 0; overflow: auto; display: flex; flex-direction: column; }
-  .spec { border-right: 1px solid var(--hairline); }
-  .spec__deck { margin: auto 0 0; padding-top: var(--sc-5); font-size: var(--sc-t-base); line-height: 1.5; color: var(--ink); max-width: 46ch; text-wrap: pretty; }
-  .log__note { margin: auto 0 0; padding-top: var(--sc-5); font-family: var(--sc-font-text); font-size: var(--sc-t-sm); color: var(--ink-soft); max-width: 46ch; text-wrap: pretty; }
-  .log__lines, .log__caret { flex: none; }
-  .spec__label, .log__label { margin: 0 0 var(--sc-4); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
-  .spec__title { font-size: clamp(2rem, 1.4rem + 2vw, 3rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.02; margin: 0; }
-  .spec__role { color: var(--ink-soft); margin: var(--sc-2) 0 var(--sc-3); font-size: var(--sc-t-sm); text-wrap: pretty; }
-  .spec__status { display: inline-flex; align-items: center; gap: var(--sc-2); margin: 0 0 var(--sc-5); padding: var(--sc-1) var(--sc-3); border: 1px solid var(--hairline-strong); border-radius: var(--sc-r-pill); color: var(--ink); }
+  .hero {
+    width: 100%; max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-4));
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0;
+  }
+
+  /* The stage: the avatar fills the left half from the first pixel. */
+  .stage {
+    position: relative; margin: 0; min-height: 0; overflow: hidden;
+    border-right: 1px solid var(--hairline); background: var(--surface);
+    display: grid; grid-template-rows: minmax(0, 1fr);
+  }
+  .stage__render { grid-area: 1 / 1; display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: 50% 20%; transition: opacity var(--sc-d-slow) var(--sc-ease-out); }
+  /* The rigged model renders over the still, which stays as poster and fallback.
+     The canvas fades in on the first frame and the still fades out under it. */
+  .stage__avatar { grid-area: 1 / 1; position: relative; min-height: 0; opacity: 0; transition: opacity var(--sc-d-slow) var(--sc-ease-out); }
+  .stage__canvas { display: block; width: 100%; height: 100%; }
+  .stage__avatar[data-avatar-state='ready'] { opacity: 1; }
+  .stage:has(.stage__avatar[data-avatar-state='ready']) .stage__render { opacity: 0; }
+  .stage__cap {
+    position: absolute; left: var(--sc-4); top: var(--sc-4); margin: 0;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft);
+    background: color-mix(in oklab, var(--ground) 82%, transparent); padding: var(--sc-1) var(--sc-2); border-radius: var(--sc-r-sm);
+  }
+
+  .spec { padding: var(--sc-6); min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: var(--sc-3); }
+  .spec__label { margin: 0; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .spec__title { font-size: var(--sc-t-3xl); font-weight: 600; letter-spacing: var(--sc-track-tight); line-height: 0.98; margin: 0; max-width: 8ch; text-wrap: balance; }
+  .spec__role { color: var(--ink-soft); margin: var(--sc-2) 0 0; font-size: var(--sc-t-lg); line-height: 1.4; max-width: 34ch; text-wrap: pretty; }
+  .spec__status { display: inline-flex; align-self: flex-start; align-items: center; gap: var(--sc-2); margin: var(--sc-2) 0 0; padding: var(--sc-1) var(--sc-3); border: 1px solid var(--hairline-strong); border-radius: var(--sc-r-pill); color: var(--ink); }
   .spec__pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 50%, transparent); animation: pulse 2.2s var(--sc-ease-out) infinite; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
-  .spec__ac { list-style: none; margin: 0; padding: 0; }
-  .spec__ac li {
-    display: grid; grid-template-columns: 0.85rem 3.4rem minmax(0, 1fr); gap: var(--sc-3); align-items: center;
-    padding: var(--sc-2) 0; border-bottom: 1px solid var(--hairline); font-size: var(--sc-t-sm); color: var(--ink-soft);
-    transition: color var(--sc-d-base) var(--sc-ease-out);
-  }
-  .spec__ac li:last-child { border-bottom: 0; }
-  .spec__tick { width: 12px; height: 12px; border: 1px solid var(--ink-soft); border-radius: 2px; transition: background var(--sc-d-base) var(--sc-ease-out), border-color var(--sc-d-base) var(--sc-ease-out); }
-  .spec__ac li[data-done='true'] { color: var(--ink); }
-  .spec__ac li[data-done='true'] .spec__tick { background: var(--accent); border-color: var(--accent); }
-  .spec__ac a { color: inherit; text-decoration: none; }
-  .spec__ac a:hover, .spec__ac a:focus-visible { color: var(--accent); }
 
-  .log { font-family: var(--sc-font-mono); }
-  .log__lines { list-style: none; margin: 0; padding: 0; font-size: var(--sc-t-sm); line-height: 1.9; }
+  /* The build record: the run that built this page, typed out by scroll. */
+  .log { margin-top: var(--sc-4); padding: var(--sc-3) 0 var(--sc-4); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); font-family: var(--sc-font-mono); }
+  .log__label { display: flex; justify-content: space-between; gap: var(--sc-4); margin: 0 0 var(--sc-3); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
+  .log__status { display: inline-grid; justify-items: end; white-space: nowrap; }
+  .log__run, .log__done { grid-area: 1 / 1; }
+  .log__label b { color: var(--accent); font-weight: 500; }
+  .log__done { color: var(--ink); opacity: clamp(0, (var(--sc-p, 0) - 0.93) * 40, 1); }
+  .log__lines { list-style: none; margin: 0; padding: 0; overflow: hidden; font-size: var(--sc-t-sm); line-height: 1.9; color: var(--ink); }
   .log__line { --x: clamp(0, (var(--sc-p, 0) - var(--t0)) / var(--dt), 1); display: flex; gap: var(--sc-3); white-space: nowrap; }
   .log__prompt { color: var(--accent); opacity: calc(0.25 + 0.75 * clamp(0, var(--x) * 40, 1)); }
   .log__text { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; max-width: calc(var(--x) * var(--len) * 1ch); }
-  .log__caret { display: inline-block; width: 1.5px; height: 1.1em; background: var(--accent); margin-left: 1.6rem; vertical-align: text-bottom; animation: caret 1s steps(2) infinite; }
-  @keyframes caret { 50% { opacity: 0; } }
 
-  /* The render viewport. It takes whatever height the transcript leaves and
-     frames the 3D portrait on the ground colour, one shade under the panel,
-     so it reads as a viewport inside the workspace rather than a photo. */
-  .log__figure {
-    flex: 1 1 auto; min-height: 9rem; margin: var(--sc-4) 0 0; position: relative;
-    display: grid; grid-template-rows: minmax(0, 1fr); overflow: hidden;
-    border: 1px solid var(--hairline); border-radius: var(--sc-r-md); background: var(--ground);
+  .spec__ctas { display: flex; gap: var(--sc-3); margin-top: auto; padding: var(--sc-6) 0 var(--sc-2); flex-wrap: wrap; }
+  .hero__cta {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--sc-5);
+    border: 1px solid var(--hairline-strong); border-radius: var(--sc-r-pill);
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none;
+    transition: border-color var(--sc-d-fast) var(--sc-ease-out), color var(--sc-d-fast) var(--sc-ease-out);
   }
-  .log__render { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; object-position: 50% 50%; }
-  /* The render is the payoff of the run: it develops only once the deploy line
-     has finished typing (progress 0.92), in step with "run complete". */
-  @media (prefers-reduced-motion: no-preference) {
-    .log__figure { --r: clamp(0, (var(--sc-p, 0) - 0.92) / 0.05, 1); opacity: var(--r); }
-    .log__render { scale: calc(0.96 + 0.04 * var(--r)); filter: blur(calc((1 - var(--r)) * 6px)); }
-  }
-  .log__figcap { position: absolute; left: var(--sc-3); bottom: var(--sc-2); margin: 0; font-size: var(--sc-t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+  .hero__cta:hover, .hero__cta:focus-visible { border-color: var(--accent); color: var(--accent); }
+  .hero__cta--fill { background: var(--accent); border-color: var(--accent); color: var(--ground); font-weight: 600; }
+  .hero__cta--fill:hover, .hero__cta--fill:focus-visible { color: var(--ground); filter: brightness(1.08); }
 
   @media (min-width: 861px) and (max-height: 820px) {
-    .spec__ac li { padding: var(--sc-1) 0; }
-    .spec__deck { font-size: var(--sc-t-sm); padding-top: var(--sc-4); }
+    .spec { padding: var(--sc-5); gap: var(--sc-2); }
+    .spec__title { font-size: var(--sc-t-2xl); }
+    .spec__role { font-size: var(--sc-t-base); }
+    .log__lines { font-size: var(--sc-t-xs); line-height: 1.7; }
+    .spec__ctas { padding-top: var(--sc-5); }
   }
 
   @media (max-width: 860px) {
     .ws { padding: calc(var(--nav-h) + var(--sc-3)) var(--sc-gutter) var(--sc-3); }
-    .ws__frame { max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-3)); }
-    .ws__split { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
-    .log { order: -1; border-bottom: 1px solid var(--hairline); padding: var(--sc-4); }
-    .spec { border-right: 0; padding: var(--sc-4); }
-    .log__lines { font-size: var(--sc-t-xs); line-height: 1.8; }
+    .hero { max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-3)); grid-template-columns: 1fr; grid-template-rows: minmax(0, 38svh) minmax(0, 1fr); }
+    .stage { border-right: 0; border-bottom: 1px solid var(--hairline); }
+    .stage__render { object-position: 50% 45%; }
+    .stage__cap { display: none; }
+    .spec { padding: var(--sc-4); gap: var(--sc-2); overflow-x: hidden; }
     .spec__title { font-size: var(--sc-t-xl); }
-    .spec__role { margin-bottom: var(--sc-3); }
-    .spec__ac li { padding: var(--sc-1) 0; font-size: var(--sc-t-xs); }
-    .spec__label, .log__label { margin-bottom: var(--sc-3); }
-    .spec__deck { font-size: var(--sc-t-sm); padding-top: var(--sc-3); }
-    .log__note { display: none; }
-    .log__figure { flex: 0 0 auto; height: 22svh; min-height: 7rem; margin-top: var(--sc-3); }
-    .log__figcap { display: none; }
+    .spec__role { font-size: var(--sc-t-sm); }
+    .log { margin-top: var(--sc-3); padding: var(--sc-2) 0 var(--sc-3); }
+    /* The status wraps under the label rather than pushing the row wider. */
+    .log__label { flex-wrap: wrap; gap: var(--sc-2); letter-spacing: 0.04em; margin-bottom: var(--sc-2); }
+    .log__status { justify-items: start; }
+    .log__date { display: none; }
+    .log__lines { font-size: var(--sc-t-xs); line-height: 1.7; }
+    /* Only the last lines fit above the CTAs on a phone. */
+    .log__line:nth-child(-n + 3) { display: none; }
+    .spec__ctas { padding: var(--sc-4) 0 0; }
+    .hero__cta { padding: 0 var(--sc-4); }
   }
   @media (prefers-reduced-motion: reduce) {
     .log__text { max-width: none; }
     .log__prompt { opacity: 1; }
-    .log__caret { animation: none; }
     .spec__pulse { animation: none; }
-    .ws__done { opacity: 1; }
+    .log__done { opacity: 1; }
   }
 </style>

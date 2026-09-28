@@ -49,7 +49,7 @@ export const skills: Skill[] = [
   { name: 'Operations Management', category: 'Competencies', icon: 'Settings2' },
   { name: 'Stakeholder Alignment', category: 'Competencies', icon: 'Users' },
 
-  // APIs integrated in shipped products
+  // APIs integrated in client products
   { name: 'Stripe', category: 'APIs', logo: stripe },
   { name: 'PayPal', category: 'APIs', logo: paypal },
   { name: 'OpenAI', category: 'APIs', logo: openai },

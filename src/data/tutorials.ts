@@ -5,7 +5,7 @@ export const tutorials: Tutorial[] = [
     id: 'tutorial-1',
     youtubeId: '7QKx8B0HLkA',
     title: 'Blur Studio Project Management Tool',
-    description: 'A walkthrough of a production Bubble app: architecture, workflows and database design.',
+    description: 'A walkthrough of a real Bubble app: architecture, workflows and database design.',
   },
   {
     id: 'tutorial-2',

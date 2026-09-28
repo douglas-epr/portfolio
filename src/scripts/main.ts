@@ -5,6 +5,7 @@ import { initProjectDialog } from './project-dialog';
 import { initContactForm } from './contact-form';
 import { initYouTube } from './youtube';
 import { initAvatar } from './avatar';
+import { initStageFit } from './stage-fit';
 
 function mountEngine(): void {
   window.ScrollCraft.mount(document.body);
@@ -19,3 +20,4 @@ initProjectDialog();
 initContactForm();
 initYouTube();
 initAvatar();
+initStageFit();

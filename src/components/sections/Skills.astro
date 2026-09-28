@@ -5,10 +5,10 @@ import { skills } from '@/data/skills';
 import type { SkillCategory } from '@/types';
 
 const groups: Array<{ category: SkillCategory; title: string; note: string; wide?: boolean }> = [
-  { category: 'Stack', title: 'Stack', note: 'What I ship production systems on.' },
-  { category: 'AI Tools', title: 'AI tools', note: 'How I build at speed.' },
+  { category: 'Stack', title: 'Stack', note: 'What the apps run on.' },
+  { category: 'AI Tools', title: 'AI tools', note: 'How I build every app today.' },
   { category: 'Competencies', title: 'Competencies', note: 'From the CV, in its own words.' },
-  { category: 'APIs', title: 'APIs integrated', note: 'Each one has shipped inside a client product.', wide: true },
+  { category: 'APIs', title: 'APIs integrated', note: 'Each one connected inside a client project.', wide: true },
 ];
 const byCategory = (category: SkillCategory) => skills.filter((skill) => skill.category === category);
 const icons = { BrainCircuit, Building2, Database, FileCheck2, Layers, PenTool, Settings2, Users, Workflow } as const;
@@ -20,9 +20,9 @@ const iconFor = (name?: string) => (name && name in icons ? icons[name as IconNa
   <div class="stack" data-sc-stage>
     <div class="rail" data-sc-pan="0.05">
       <div class="rail__item rail__lead" style="--i: 0">
-        <p class="folio"><b>§04</b> · Stack</p>
-        <h2 class="sc-display sc-display--md">The stack behind the shipped work.</h2>
-        <p class="sc-body">Every product on this rail runs inside something I shipped. {skills.length} entries in four groups; the rail moves as you scroll.</p>
+        <p class="folio"><b>§05</b> · Stack</p>
+        <h2 class="sc-display sc-display--md">The tools behind the work.</h2>
+        <p class="sc-body">Every tool on this rail has been part of a client project. {skills.length} entries in four groups; the rail moves as you scroll.</p>
       </div>
       {groups.map((group, index) => {
         const items = byCategory(group.category);

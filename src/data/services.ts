@@ -5,31 +5,31 @@ export const services: Service[] = [
     id: 'ai-product-engineering',
     title: 'AI Product Engineering',
     description:
-      'Production apps built with Claude Code, Next.js and Supabase, with Lovable and Figma Make where speed matters. Enterprise-grade logic, from MVP to scale.',
+      'Full-stack apps built with Claude Code, with Next.js and Supabase as the main stack, with Lovable and Figma Make where speed matters. From the first version to launch.',
   },
   {
-    id: 'nocode-architecture',
-    title: 'NoCode Architecture',
+    id: 'app-architecture',
+    title: 'App Architecture and Data Modeling',
     description:
-      'Complex Bubble.io systems: backend workflows, optimized database schemas and third-party API integrations that hold up under thousands of users.',
+      'The structure an app grows on: data model, user roles, workflows and integrations planned before the build. For new apps and for Bubble apps ready for their next stage.',
   },
   {
-    id: 'product-strategy',
-    title: 'Product Strategy',
+    id: 'founding-engineering',
+    title: 'Founding Engineering',
     description:
-      'Discovery phases, Project Playbooks, high-fidelity prototypes and roadmaps. Vision to execution, mapped on paper before anyone builds.',
+      'The first engineer from day one: discovery, Project Playbooks, prototypes and the roadmap, then the first version built with AI and grown with the team.',
   },
   {
     id: 'ui-ux-design',
     title: 'UI/UX Design and Prototyping',
     description:
-      'Figma Make prototyping that carries a design through to a responsive product. From clickable wireframe to shipped screens.',
+      'Figma Make prototyping that carries a design through to a responsive product. From clickable wireframe to finished screens.',
   },
   {
     id: 'api-integrations',
     title: 'API Integrations',
     description:
-      'Third-party integrations you can audit: Stripe, OpenAI, HubSpot, Salesforce and custom connectors, with the data flow documented.',
+      'Third-party integrations with the data flow documented: Stripe, OpenAI, HubSpot, Salesforce and custom connectors.',
   },
   {
     id: 'operations-systems',

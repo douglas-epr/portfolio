@@ -4,13 +4,14 @@ import { tutorials } from '@/data/tutorials';
 import { person } from '@/data/person';
 import YouTubeEmbed from '@/components/YouTubeEmbed.astro';
 
+const watchUrl = (id: string, start?: number) => `https://www.youtube.com/watch?v=${encodeURIComponent(id)}${start ? `&t=${start}s` : ''}`;
 const revealFor = (index: number) => `${(0.1 + index * 0.08).toFixed(2)} ${(0.36 + index * 0.08).toFixed(2)}`;
 ---
 
 <section id="tutorials" class="chapter" data-sc-act="flow" data-chapter-title="Teaching">
   <div class="sc-wrap">
     <header class="chapter__head" data-sc-in data-sc-stagger="60">
-      <p class="folio"><b>§07</b> · Teaching</p>
+      <p class="folio"><b>§08</b> · Teaching</p>
       <h2 class="sc-display sc-display--md">Teaching Bubble on camera, one real problem at a time.</h2>
       <p class="sc-body">Four recordings from the channel. Each one solves a problem inside a real app, at the pace of someone building along. <a class="text-link" href={person.youtubeUrl} target="_blank" rel="noopener noreferrer">All videos on YouTube <ArrowUpRight size={14} aria-hidden="true" /></a></p>
     </header>
@@ -25,6 +26,7 @@ const revealFor = (index: number) => `${(0.1 + index * 0.08).toFixed(2)} ${(0.36
               <div class="video__copy">
                 <h3 class="video__title">{video.title}</h3>
                 <p class="video__desc">{video.description}</p>
+                <a class="mono video__open" href={watchUrl(video.youtubeId, video.start)} target="_blank" rel="noopener noreferrer" aria-label={`Open on YouTube: ${video.title}`}>Open on YouTube <ArrowUpRight size={14} aria-hidden="true" /></a>
               </div>
             </div>
           </div>
@@ -41,6 +43,14 @@ const revealFor = (index: number) => `${(0.1 + index * 0.08).toFixed(2)} ${(0.36
   .video__copy { padding: var(--sc-4); display: grid; gap: var(--sc-2); }
   .video__title { margin: 0; font-size: var(--sc-t-base); font-weight: 500; line-height: 1.4; text-wrap: balance; }
   .video__desc { margin: 0; color: var(--ink-soft); font-size: var(--sc-t-sm); }
+  .video__open {
+    justify-self: start; display: inline-flex; align-items: center; gap: var(--sc-2); min-height: 40px; margin-top: var(--sc-2); padding: 0 var(--sc-4);
+    border: 1px solid var(--hairline-strong); border-radius: var(--sc-r-pill); color: var(--ink); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
+    transition: border-color var(--sc-d-fast) var(--sc-ease-out), color var(--sc-d-fast) var(--sc-ease-out);
+  }
+  .video__open:hover, .video__open:focus-visible { border-color: var(--accent); color: var(--accent); }
+  /* A playing video sits flat: the engine's hover tilt would freeze the iframe at an angle. */
+  .video__tilt:has(.yt.is-playing) { transform: none !important; }
   .chapter__head a { display: inline-flex; align-items: center; gap: 0.3em; }
   @media (max-width: 860px) {
     .videos { grid-template-columns: 1fr; }

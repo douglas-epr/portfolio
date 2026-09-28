@@ -1,0 +1,47 @@
+---
+import { path } from '@/data/path';
+---
+
+<section id="path" class="chapter" data-sc-act="flow" data-chapter-title="Path">
+  <div class="sc-wrap path">
+    <div class="path__copy sc-stack" data-sc-in data-sc-stagger="70">
+      <p class="folio"><b>§02</b> · Path</p>
+      <h2 class="sc-display sc-display--md">{path.heading}</h2>
+      <p class="path__lead">{path.lead}</p>
+      {path.story.map((paragraph) => <p class="path__body">{paragraph}</p>)}
+    </div>
+    <aside class="path__side">
+      <div class="panel" data-sc-in data-sc-stagger="60">
+        <div class="panel__bar"><span>{path.fixesLabel}</span><span>{path.fixes.length} rows</span></div>
+        <ol class="path__fixes">
+          {path.fixes.map((fix, index) => (
+            <li><span class="mono path__num">2.{index + 1}</span><span>{fix}</span></li>
+          ))}
+        </ol>
+      </div>
+    </aside>
+    <div class="path__close sc-stack" data-sc-in data-sc-stagger="70">
+      {path.closing.map((paragraph) => <p class="path__body">{paragraph}</p>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .path { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 24rem); gap: var(--sc-5) clamp(2rem, 5vw, 5rem); align-items: start; }
+  .path__copy .sc-display { margin-bottom: var(--sc-2); max-width: 22ch; }
+  .path__lead { font-size: var(--sc-t-lg); line-height: 1.45; max-width: var(--sc-measure); text-wrap: pretty; margin: var(--sc-5) 0 0; }
+  .path__body { color: var(--ink-soft); max-width: var(--sc-measure); text-wrap: pretty; margin: var(--sc-4) 0 0; }
+  .path__side { grid-row: span 2; position: sticky; top: calc(var(--nav-h) + var(--sc-5)); }
+  .path__fixes { list-style: none; margin: 0; padding: 0; }
+  .path__fixes li { display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--sc-3); padding: var(--sc-3) var(--sc-4); border-bottom: 1px solid var(--hairline); font-size: var(--sc-t-sm); line-height: 1.5; }
+  .path__fixes li:last-child { border-bottom: 0; }
+  .path__num { color: var(--accent); padding-top: 0.15em; }
+  .path__close { grid-column: 1; }
+  .path__close .path__body:first-child { margin-top: 0; }
+
+  @media (max-width: 860px) {
+    .path { grid-template-columns: 1fr; }
+    .path__side { grid-row: auto; position: static; }
+    .path__lead { font-size: var(--sc-t-base); }
+  }
+</style>

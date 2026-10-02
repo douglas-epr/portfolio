@@ -4,7 +4,7 @@ import { initTranscript } from './transcript';
 import { initProjectDialog } from './project-dialog';
 import { initContactForm } from './contact-form';
 import { initYouTube } from './youtube';
-import { initAvatar } from './avatar';
+import { initHeroScene } from './hero-scene';
 import { initStageFit } from './stage-fit';
 
 function mountEngine(): void {
@@ -19,5 +19,5 @@ initTranscript();
 initProjectDialog();
 initContactForm();
 initYouTube();
-initAvatar();
+initHeroScene();
 initStageFit();

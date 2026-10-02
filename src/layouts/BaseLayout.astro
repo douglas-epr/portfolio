@@ -13,8 +13,8 @@ interface Props {
 
 const site = Astro.site?.href.replace(/\/$/, '') ?? 'https://douglasgouveia.dev';
 const {
-  title = 'Douglas Gouveia · AI Product Engineer',
-  description = 'Douglas Gouveia, AI Product Engineer and Founding Engineer, builds apps with AI, full stack, from first idea to launch. More than four years of client apps for founders in Brazil, Finland, the United Kingdom and the United States. Open to AI Product and Founding Engineer roles, remote.',
+  title = 'Douglas Gouveia · AI Product Builder',
+  description = 'Douglas Gouveia, AI Product Builder, full-stack developer, builds secure, fast, well-designed apps end to end with AI and implements AI workflows inside businesses. More than four years of client apps for founders in Brazil, Finland, the United Kingdom and the United States. Open to AI Product Builder, AI Implementation and AI Automation roles, remote.',
 } = Astro.props;
 
 const ogImage = `${site}/og-thumbnail.png`;
@@ -59,7 +59,7 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Douglas Gouveia, AI Product Engineer" />
+    <meta property="og:image:alt" content="Douglas Gouveia, AI Product Builder" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

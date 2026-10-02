@@ -39,13 +39,13 @@ export const skills: Skill[] = [
   { name: 'Figma Make', category: 'AI Tools', logo: figma },
 
   // Competencies (from the 2026 CV), drawn with icons since they are not products
-  { name: 'AI Product Engineering', category: 'Competencies', icon: 'BrainCircuit' },
-  { name: 'Product Architecture', category: 'Competencies', icon: 'Layers' },
+  { name: 'AI Product Building', category: 'Competencies', icon: 'BrainCircuit' },
+  { name: 'AI Automation & Workflows', category: 'Competencies', icon: 'Workflow' },
+  { name: 'AI Implementation', category: 'Competencies', icon: 'Layers' },
+  { name: 'Discovery & Process Mapping', category: 'Competencies', icon: 'PenTool' },
   { name: 'Spec-Driven Delivery', category: 'Competencies', icon: 'FileCheck2' },
+  { name: 'API Integrations', category: 'Competencies', icon: 'Database' },
   { name: 'Multi-Tenant SaaS', category: 'Competencies', icon: 'Building2' },
-  { name: 'AI & API Orchestration', category: 'Competencies', icon: 'Workflow' },
-  { name: 'Database Architecture', category: 'Competencies', icon: 'Database' },
-  { name: 'UI/UX Design', category: 'Competencies', icon: 'PenTool' },
   { name: 'Operations Management', category: 'Competencies', icon: 'Settings2' },
   { name: 'Stakeholder Alignment', category: 'Competencies', icon: 'Users' },
 

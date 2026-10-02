@@ -1,11 +1,30 @@
 import type { Service } from '@/types';
 
+/** The four job titles lead, in the order they match the profile; the two supporting skills follow. */
 export const services: Service[] = [
   {
-    id: 'ai-product-engineering',
-    title: 'AI Product Engineering',
+    id: 'ai-product-building',
+    title: 'AI Product Building',
     description:
-      'Full-stack apps built with Claude Code, with Next.js and Supabase as the main stack, with Lovable and Figma Make where speed matters. From the first version to launch.',
+      'Secure, fast, well-designed apps built end to end with Claude Code, Lovable and Figma Make: frontend, backend, database, APIs and UI/UX as one system. Next.js and Supabase as the main stack.',
+  },
+  {
+    id: 'ai-implementation',
+    title: 'AI Implementation',
+    description:
+      'AI brought into how a business works: modular agent skills, structured context files, and acceptance criteria that test AI outputs for accuracy before a team relies on them.',
+  },
+  {
+    id: 'ai-automation',
+    title: 'AI Automation',
+    description:
+      'A business process mapped end to end, the slow steps found, and AI-driven workflows designed to remove them, connected through APIs such as Stripe, OpenAI, HubSpot, Salesforce and Slack.',
+  },
+  {
+    id: 'ai-enablement',
+    title: 'AI Enablement and Operations',
+    description:
+      'Company OS infrastructure: SOPs, OKR frameworks, Project Playbooks and AI-driven internal tools, plus recorded tutorials that teach a team to build on its own.',
   },
   {
     id: 'app-architecture',
@@ -14,27 +33,9 @@ export const services: Service[] = [
       'The structure an app grows on: data model, user roles, workflows and integrations planned before the build. For new apps and for Bubble apps ready for their next stage.',
   },
   {
-    id: 'founding-engineering',
-    title: 'Founding Engineering',
-    description:
-      'The first engineer from day one: discovery, Project Playbooks, prototypes and the roadmap, then the first version built with AI and grown with the team.',
-  },
-  {
     id: 'ui-ux-design',
     title: 'UI/UX Design and Prototyping',
     description:
       'Figma Make prototyping that carries a design through to a responsive product. From clickable wireframe to finished screens.',
-  },
-  {
-    id: 'api-integrations',
-    title: 'API Integrations',
-    description:
-      'Third-party integrations with the data flow documented: Stripe, OpenAI, HubSpot, Salesforce and custom connectors.',
-  },
-  {
-    id: 'operations-systems',
-    title: 'Operations and Systems Design',
-    description:
-      'Company OS infrastructure: SOPs, OKR frameworks, talent pools, project management systems and AI-driven internal tooling.',
   },
 ];

@@ -1,23 +1,65 @@
 ---
-import { Image } from 'astro:assets';
+import '@fontsource/michroma/latin-400.css';
+import '@fontsource/barlow-condensed/latin-500.css';
+import { ArrowRight } from '@lucide/astro';
 import { person } from '@/data/person';
-import { build, transcript } from '@/data/build';
-import portrait3d from '@/assets/portrait-3d.jpg';
+import { build, transcript, TRANSCRIPT_FROM, TRANSCRIPT_TO } from '@/data/build';
+
+const [lead, ...rest] = person.title.split(' · ');
+
+// Circuit traces for the right edge: a trunk from the edge, one 45° bend, a pad at the end.
+const traces = [
+  { d: 'M640 18 H372 L342 48 H208', pad: [208, 48], dur: 6.5, delay: 0 },
+  { d: 'M640 42 H430 L404 68 H292', pad: [292, 68], dur: 5.2, delay: 1.4 },
+  { d: 'M640 66 H486 L462 90 H360', pad: [360, 90], dur: 7.4, delay: 2.6 },
+  { d: 'M640 90 H530 L508 112 H430', pad: [430, 112], dur: 4.6, delay: 0.8 },
+  { d: 'M640 114 H572 L552 134 H496', pad: [496, 134], dur: 5.8, delay: 3.3 },
+];
 ---
 
 <section id="hero" data-sc-act="pin" data-sc-span="3" data-chapter-title="Title page" aria-label="Title page">
   <div class="ws" data-sc-stage>
-    <div class="hero panel">
+    <div class="scene" aria-hidden="true">
+      <div class="scene__glow scene__glow--violet"></div>
+      <div class="scene__glow scene__glow--cyan"></div>
+      <canvas class="scene__net" data-constellation></canvas>
+      {['top', 'bottom'].map((edge) => (
+        <svg class={`scene__circuit scene__circuit--${edge}`} viewBox="0 0 640 150" preserveAspectRatio="xMaxYMid meet">
+          {traces.map((t) => (
+            <g>
+              <path class="trace" d={t.d}></path>
+              <path class="trace__pulse" d={t.d} pathLength="100" style={`--dur:${t.dur}s;--delay:${t.delay}s`}></path>
+              <circle class="trace__pad" cx={t.pad[0]} cy={t.pad[1]} r="3.5"></circle>
+            </g>
+          ))}
+        </svg>
+      ))}
+    </div>
+
+    <div class="hero">
       <figure class="stage">
-        <Image src={portrait3d} alt={`3D avatar of ${person.name}`} widths={[480, 825]} sizes="(max-width: 860px) 100vw, 50vw" loading="eager" fetchpriority="high" class="stage__render" />
-        <!-- The rigged model mounts here once /avatar.glb exists: add data-src="/avatar.glb" (and data-rotate if it does not face +Z). Without data-src the still render stands alone. -->
-        <div class="stage__avatar" data-avatar aria-hidden="true"><canvas class="stage__canvas"></canvas></div>
-        <figcaption class="mono stage__cap">render · 3D avatar · from 2 photographs</figcaption>
+        <div class="window">
+          <div class="window__bar">
+            <span class="window__dot"></span><span class="window__dot"></span><span class="window__dot"></span>
+            <span class="mono window__name">avatar.mp4</span>
+          </div>
+          <div class="window__view">
+            <video class="window__video" data-hero-video autoplay muted loop playsinline preload="auto" poster="/media/avatar-poster.webp" width="720" height="902" aria-label={`Animated 3D avatar of ${person.name}`}>
+              <source src="/media/avatar.webm" type="video/webm" />
+              <source src="/media/avatar.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
       </figure>
+
       <aside class="spec" aria-labelledby="spec-title">
-        <p class="mono spec__label">{person.title}</p>
         <h1 id="spec-title" class="spec__title">{person.name}</h1>
-        <p class="spec__role">{person.subtitle}.</p>
+        <p class="spec__role"><span class="spec__lead">{lead}</span>{rest.map((part) => <><span class="spec__sep" aria-hidden="true"> | </span><span>{part}</span></>)}</p>
+        <p class="mono spec__tag">{person.subtitle}</p>
+        <div class="spec__ctas">
+          <a class="hero__cta hero__cta--glow" href="#projects">Explore projects <ArrowRight size={18} aria-hidden="true" /></a>
+          <a class="mono hero__cta" href="#contact">Start a project</a>
+        </div>
         <p class="mono spec__status"><span class="spec__pulse" aria-hidden="true"></span>{person.availability}</p>
         <div class="log" role="log" aria-label="Build record of this site" data-transcript data-sc-verify-state="ready|-1|0|0">
           <p class="mono log__label">
@@ -27,7 +69,7 @@ import portrait3d from '@/assets/portrait-3d.jpg';
               <span class="log__done" aria-hidden="true"><b>✓</b> run complete</span>
             </span>
           </p>
-          <ol class="log__lines">
+          <ol class="log__lines" style={`--from:${TRANSCRIPT_FROM};--step:${(TRANSCRIPT_TO - TRANSCRIPT_FROM) / transcript.length};--count:${transcript.length}`}>
             {transcript.map((line) => (
               <li class="log__line" style={`--t0:${line.t0};--dt:${line.dt};--len:${line.text.length}`} data-t0={line.t0} data-dt={line.dt} data-len={line.text.length}>
                 <span class="log__prompt" aria-hidden="true">&gt;</span><span class="log__text">{line.text}</span>
@@ -35,104 +77,171 @@ import portrait3d from '@/assets/portrait-3d.jpg';
             ))}
           </ol>
         </div>
-        <div class="spec__ctas">
-          <a class="mono hero__cta hero__cta--fill" href="#projects">See the projects</a>
-          <a class="mono hero__cta" href="#contact">Start a project</a>
-        </div>
       </aside>
     </div>
   </div>
 </section>
 
 <style>
-  .ws { display: flex; padding: calc(var(--nav-h) + var(--sc-4)) var(--sc-gutter) var(--sc-4); }
+  /* No `position` here: the engine makes this stage sticky, which already anchors the absolute .scene.
+     Setting position on it breaks the pin (see stage-sticky.test.ts). */
+  .ws { display: flex; padding: calc(var(--nav-h) + var(--sc-4)) var(--sc-gutter) var(--sc-4); background: var(--hero-ground); }
+
+  /* ---- the scene: glows, constellation and circuit traces behind everything */
+  .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .scene__glow { position: absolute; width: 60vmax; aspect-ratio: 1; border-radius: 50%; filter: blur(60px); opacity: 0.5; }
+  .scene__glow--violet { left: -18vmax; top: -14vmax; background: radial-gradient(circle, rgb(var(--hero-violet-rgb) / 0.35), transparent 65%); animation: drift-a 22s ease-in-out infinite alternate; }
+  .scene__glow--cyan { right: -22vmax; bottom: -26vmax; background: radial-gradient(circle, rgb(var(--hero-cyan-rgb) / 0.28), transparent 65%); animation: drift-b 26s ease-in-out infinite alternate; }
+  @keyframes drift-a { to { transform: translate3d(8vmax, 6vmax, 0) scale(1.1); } }
+  @keyframes drift-b { to { transform: translate3d(-6vmax, -8vmax, 0) scale(1.15); } }
+  /* The network lives on the left and fades out before the copy. */
+  .scene__net { position: absolute; inset: 0; width: 100%; height: 100%; -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 30%, transparent 72%); mask-image: linear-gradient(90deg, #000 0%, #000 30%, transparent 72%); }
+  .scene__circuit { position: absolute; right: 0; width: min(46vw, 640px); height: auto; overflow: visible; }
+  .scene__circuit--top { top: calc(var(--nav-h) + var(--sc-3)); }
+  .scene__circuit--bottom { bottom: var(--sc-5); transform: scaleY(-1); }
+  .trace { fill: none; stroke: rgb(var(--hero-cyan-rgb) / 0.22); stroke-width: 1.4; }
+  .trace__pad { fill: var(--hero-ground); stroke: rgb(var(--hero-cyan-rgb) / 0.55); stroke-width: 1.4; }
+  .trace__pulse {
+    fill: none; stroke: rgb(var(--hero-cyan-rgb)); stroke-width: 2; stroke-linecap: round;
+    stroke-dasharray: 7 93; stroke-dashoffset: 100; opacity: 0;
+    filter: drop-shadow(0 0 4px rgb(var(--hero-cyan-rgb) / 0.9));
+    animation: pulse-run var(--dur) linear var(--delay) infinite;
+  }
+  @keyframes pulse-run { 0% { stroke-dashoffset: 100; opacity: 0; } 8% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+
+  /* ---- layout: the avatar window left, the title right */
   .hero {
-    width: 100%; max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-4));
-    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 0;
+    position: relative; z-index: 1; width: 100%; max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-4));
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; min-height: 0;
   }
 
-  /* The stage: the avatar fills the left half from the first pixel. */
-  .stage {
-    position: relative; margin: 0; min-height: 0; overflow: hidden;
-    border-right: 1px solid var(--hairline); background: var(--surface);
-    display: grid; grid-template-rows: minmax(0, 1fr);
+  .stage { margin: 0; min-height: 0; height: 100%; display: grid; place-items: center; }
+  .window {
+    /* Sized from the viewport, not 100%: the grid row gives no definite height. 28px leaves room for the outer frame. */
+    position: relative; height: min(calc(100svh - var(--nav-h) - 2 * var(--sc-4) - 28px), 46rem); max-width: 100%; aspect-ratio: 720 / 940;
+    display: grid; grid-template-rows: auto minmax(0, 1fr);
+    background: rgb(var(--hero-cyan-rgb) / 0.04); border: 1px solid rgb(var(--hero-cyan-rgb) / 0.32); border-radius: 14px;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.4), 0 30px 80px -30px rgb(0 0 0 / 0.8), 0 0 60px -20px rgb(var(--hero-cyan-rgb) / 0.35);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: window-in 900ms var(--sc-ease-out) both;
   }
-  .stage__render { grid-area: 1 / 1; display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: 50% 20%; transition: opacity var(--sc-d-slow) var(--sc-ease-out); }
-  /* The rigged model renders over the still, which stays as poster and fallback.
-     The canvas fades in on the first frame and the still fades out under it. */
-  .stage__avatar { grid-area: 1 / 1; position: relative; min-height: 0; opacity: 0; transition: opacity var(--sc-d-slow) var(--sc-ease-out); }
-  .stage__canvas { display: block; width: 100%; height: 100%; }
-  .stage__avatar[data-avatar-state='ready'] { opacity: 1; }
-  .stage:has(.stage__avatar[data-avatar-state='ready']) .stage__render { opacity: 0; }
-  .stage__cap {
-    position: absolute; left: var(--sc-4); top: var(--sc-4); margin: 0;
-    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft);
-    background: color-mix(in oklab, var(--ground) 82%, transparent); padding: var(--sc-1) var(--sc-2); border-radius: var(--sc-r-sm);
+  /* The offset outer frame from the reference: a second hairline with a notched corner. */
+  .window::before {
+    content: ''; position: absolute; inset: -14px; border: 1px solid rgb(var(--hero-cyan-rgb) / 0.16); border-radius: 18px; pointer-events: none;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 22px) calc(70% + 22px), calc(100% - 22px) 100%, 0 100%);
   }
+  .window__bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid rgb(var(--hero-cyan-rgb) / 0.18); }
+  .window__dot { width: 10px; height: 10px; border-radius: 50%; background: rgb(var(--hero-cyan-rgb) / 0.35); }
+  .window__name { margin-left: auto; color: rgb(var(--hero-cyan-rgb) / 0.7); letter-spacing: 0.08em; }
+  .window__view { min-height: 0; overflow: hidden; border-radius: 0 0 13px 13px; background: #13151a; }
+  .window__video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  @keyframes window-in { from { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.98); } }
 
-  .spec { padding: var(--sc-6); min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: var(--sc-3); }
-  .spec__label { margin: 0; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
-  .spec__title { font-size: var(--sc-t-3xl); font-weight: 600; letter-spacing: var(--sc-track-tight); line-height: 0.98; margin: 0; max-width: 8ch; text-wrap: balance; }
-  .spec__role { color: var(--ink-soft); margin: var(--sc-2) 0 0; font-size: var(--sc-t-lg); line-height: 1.4; max-width: 34ch; text-wrap: pretty; }
-  .spec__status { display: inline-flex; align-self: flex-start; align-items: center; gap: var(--sc-2); margin: var(--sc-2) 0 0; padding: var(--sc-1) var(--sc-3); border: 1px solid var(--hairline-strong); border-radius: var(--sc-r-pill); color: var(--ink); }
-  .spec__pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 50%, transparent); animation: pulse 2.2s var(--sc-ease-out) infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .spec { min-height: 0; max-height: 100%; overflow: auto; display: flex; flex-direction: column; gap: var(--sc-3); padding: var(--sc-4) 0; }
+  .spec > * { animation: rise 800ms var(--sc-ease-out) both; }
+  .spec > :nth-child(2) { animation-delay: 90ms; }
+  .spec > :nth-child(3) { animation-delay: 180ms; }
+  .spec > :nth-child(4) { animation-delay: 270ms; }
+  .spec > :nth-child(n + 5) { animation-delay: 360ms; }
+  @keyframes rise { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
 
-  /* The build record: the run that built this page, typed out by scroll. */
-  .log { margin-top: var(--sc-4); padding: var(--sc-3) 0 var(--sc-4); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); font-family: var(--sc-font-mono); }
-  .log__label { display: flex; justify-content: space-between; gap: var(--sc-4); margin: 0 0 var(--sc-3); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
-  .log__status { display: inline-grid; justify-items: end; white-space: nowrap; }
-  .log__run, .log__done { grid-area: 1 / 1; }
-  .log__label b { color: var(--accent); font-weight: 500; }
-  .log__done { color: var(--ink); opacity: clamp(0, (var(--sc-p, 0) - 0.93) * 40, 1); }
-  .log__lines { list-style: none; margin: 0; padding: 0; overflow: hidden; font-size: var(--sc-t-sm); line-height: 1.9; color: var(--ink); }
-  .log__line { --x: clamp(0, (var(--sc-p, 0) - var(--t0)) / var(--dt), 1); display: flex; gap: var(--sc-3); white-space: nowrap; }
-  .log__prompt { color: var(--accent); opacity: calc(0.25 + 0.75 * clamp(0, var(--x) * 40, 1)); }
-  .log__text { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; max-width: calc(var(--x) * var(--len) * 1ch); }
+  .spec__title {
+    margin: 0; font-family: 'Michroma', var(--sc-font-display); font-weight: 400; text-transform: uppercase;
+    font-size: clamp(1.7rem, 3.1vw, 3.3rem); line-height: 1.15; letter-spacing: 0.04em; text-wrap: balance;
+    background: linear-gradient(90deg, var(--hero-ink) 0%, #cfe8f3 45%, rgb(var(--hero-cyan-rgb)) 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .spec__role { margin: 0; font-family: 'Barlow Condensed', var(--sc-font-display); font-weight: 500; text-transform: uppercase; font-size: clamp(1.25rem, 2.1vw, 2.1rem); line-height: 1.1; letter-spacing: 0.03em; color: #cbd8e0; text-wrap: balance; }
+  .spec__lead { color: rgb(var(--hero-cyan-rgb)); }
+  .spec__sep { color: rgb(var(--hero-cyan-rgb) / 0.45); }
+  /* The bracket from the reference: a hairline that runs in from the left and turns down to the CTAs. */
+  .spec__tag { position: relative; margin: var(--sc-3) 0 0; padding: 0 0 0 1.6rem; color: #b9c7d0; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.5; max-width: 46ch; }
+  .spec__tag::before { content: ''; position: absolute; left: 0; top: 0.75em; width: 1.1rem; height: calc(100% + var(--sc-4)); border-top: 1px solid rgb(var(--hero-cyan-rgb) / 0.45); border-left: 1px solid rgb(var(--hero-cyan-rgb) / 0.45); border-top-left-radius: 6px; }
 
-  .spec__ctas { display: flex; gap: var(--sc-3); margin-top: auto; padding: var(--sc-6) 0 var(--sc-2); flex-wrap: wrap; }
+  .spec__ctas { display: flex; gap: var(--sc-3); flex-wrap: wrap; align-items: center; padding-left: 1.6rem; margin-top: var(--sc-1); }
   .hero__cta {
-    display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--sc-5);
+    display: inline-flex; align-items: center; gap: var(--sc-2); min-height: 48px; padding: 0 var(--sc-5);
     border: 1px solid var(--hairline-strong); border-radius: var(--sc-r-pill);
     letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none;
-    transition: border-color var(--sc-d-fast) var(--sc-ease-out), color var(--sc-d-fast) var(--sc-ease-out);
+    transition: border-color var(--sc-d-fast) var(--sc-ease-out), color var(--sc-d-fast) var(--sc-ease-out), box-shadow 240ms var(--sc-ease-out);
   }
-  .hero__cta:hover, .hero__cta:focus-visible { border-color: var(--accent); color: var(--accent); }
-  .hero__cta--fill { background: var(--accent); border-color: var(--accent); color: var(--ground); font-weight: 600; }
-  .hero__cta--fill:hover, .hero__cta--fill:focus-visible { color: var(--ground); filter: brightness(1.08); }
+  .hero__cta:hover, .hero__cta:focus-visible { border-color: rgb(var(--hero-cyan-rgb)); color: rgb(var(--hero-cyan-rgb)); }
+  .hero__cta--glow {
+    font-family: 'Barlow Condensed', var(--sc-font-display); font-weight: 500; font-size: var(--sc-t-lg); letter-spacing: 0.05em; color: var(--hero-ink);
+    border: 1.5px solid transparent;
+    background: linear-gradient(var(--hero-ground), var(--hero-ground)) padding-box, linear-gradient(90deg, rgb(var(--hero-cyan-rgb)), rgb(var(--hero-violet-rgb))) border-box;
+    box-shadow: 0 0 22px -4px rgb(var(--hero-cyan-rgb) / 0.55), 0 0 34px -6px rgb(var(--hero-violet-rgb) / 0.5);
+    animation: cta-glow 3.6s ease-in-out infinite;
+  }
+  .hero__cta--glow :global(svg) { transition: transform var(--sc-d-fast) var(--sc-ease-out); }
+  .hero__cta--glow:hover, .hero__cta--glow:focus-visible { color: #fff; border-color: transparent; box-shadow: 0 0 30px -2px rgb(var(--hero-cyan-rgb) / 0.75), 0 0 48px -4px rgb(var(--hero-violet-rgb) / 0.7); }
+  .hero__cta--glow:hover :global(svg), .hero__cta--glow:focus-visible :global(svg) { transform: translateX(4px); }
+  @keyframes cta-glow { 50% { box-shadow: 0 0 28px -2px rgb(var(--hero-cyan-rgb) / 0.7), 0 0 44px -4px rgb(var(--hero-violet-rgb) / 0.65); } }
+
+  .spec__status { display: inline-flex; align-self: flex-start; align-items: center; gap: var(--sc-2); margin: var(--sc-3) 0 0; padding: var(--sc-1) var(--sc-3); border: 1px solid rgb(var(--hero-cyan-rgb) / 0.3); border-radius: var(--sc-r-pill); color: var(--ink); }
+  .spec__pulse { width: 8px; height: 8px; border-radius: 50%; background: rgb(var(--hero-cyan-rgb)); animation: status-pulse 2.2s var(--sc-ease-out) infinite; }
+  @keyframes status-pulse { 0% { box-shadow: 0 0 0 0 rgb(var(--hero-cyan-rgb) / 0.55); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+  /* The build record: the run that built this page, typed out by scroll, in a glass code card. */
+  .log { max-width: 44rem; padding: var(--sc-3) var(--sc-4) var(--sc-4); border: 1px solid rgb(var(--hero-cyan-rgb) / 0.16); border-radius: 10px; background: rgb(var(--hero-cyan-rgb) / 0.035); font-family: var(--sc-font-mono); }
+  .log__label { display: flex; justify-content: space-between; gap: var(--sc-4); margin: 0 0 var(--sc-2); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
+  .log__status { display: inline-grid; justify-items: end; white-space: nowrap; }
+  .log__run, .log__done { grid-area: 1 / 1; }
+  .log__label b { color: rgb(var(--hero-cyan-rgb)); font-weight: 500; }
+  .log__done { color: var(--ink); opacity: clamp(0, (var(--sc-p, 0) - 0.93) * 40, 1); }
+  /* A terminal window --rows lines tall. --n counts the lines that have started typing; once it passes
+     --rows the list slides up one line per line typed, so the newest line is always on screen. */
+  .log__lines { --lh: 1.8em; --rows: 6; list-style: none; margin: 0; padding: 0; overflow: hidden; font-size: var(--sc-t-xs); line-height: var(--lh); height: calc(var(--rows) * var(--lh)); color: #d6e2ea; }
+  .log__line {
+    --x: clamp(0, (var(--sc-p, 0) - var(--t0)) / var(--dt), 1);
+    --n: clamp(0, (var(--sc-p, 0) - var(--from)) / var(--step) + 1, var(--count));
+    display: flex; gap: var(--sc-3); white-space: nowrap;
+    transform: translate3d(0, calc(-1 * var(--lh) * max(0, var(--n) - var(--rows))), 0);
+  }
+  .log__prompt { color: rgb(var(--hero-cyan-rgb)); opacity: calc(0.25 + 0.75 * clamp(0, var(--x) * 40, 1)); }
+  .log__text { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; max-width: calc(var(--x) * var(--len) * 1ch); }
+
+  /* One line on wide screens, as in the reference: Michroma runs about 0.92em per capital. */
+  @media (min-width: 1100px) { .spec__title { white-space: nowrap; font-size: clamp(1.9rem, 2.55vw, 3.2rem); } }
 
   @media (min-width: 861px) and (max-height: 820px) {
-    .spec { padding: var(--sc-5); gap: var(--sc-2); }
-    .spec__title { font-size: var(--sc-t-2xl); }
-    .spec__role { font-size: var(--sc-t-base); }
-    .log__lines { font-size: var(--sc-t-xs); line-height: 1.7; }
-    .spec__ctas { padding-top: var(--sc-5); }
+    .spec { gap: var(--sc-2); }
+    .log__lines { --lh: 1.6em; --rows: 4; }
   }
 
   @media (max-width: 860px) {
     .ws { padding: calc(var(--nav-h) + var(--sc-3)) var(--sc-gutter) var(--sc-3); }
-    .hero { max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-3)); grid-template-columns: 1fr; grid-template-rows: minmax(0, 38svh) minmax(0, 1fr); }
-    .stage { border-right: 0; border-bottom: 1px solid var(--hairline); }
-    .stage__render { object-position: 50% 45%; }
-    .stage__cap { display: none; }
-    .spec { padding: var(--sc-4); gap: var(--sc-2); overflow-x: hidden; }
-    .spec__title { font-size: var(--sc-t-xl); }
-    .spec__role { font-size: var(--sc-t-sm); }
-    .log { margin-top: var(--sc-3); padding: var(--sc-2) 0 var(--sc-3); }
-    /* The status wraps under the label rather than pushing the row wider. */
-    .log__label { flex-wrap: wrap; gap: var(--sc-2); letter-spacing: 0.04em; margin-bottom: var(--sc-2); }
+    .hero { max-height: calc(100svh - var(--nav-h) - 2 * var(--sc-3)); grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: var(--sc-4); align-items: stretch; }
+    /* A grid row does not give the window a definite height to resolve 100% against, so size it directly. */
+    .stage { height: auto; }
+    .window { height: 32svh; width: 100%; aspect-ratio: auto; }
+    .window::before { inset: -8px; }
+    .window__bar { padding: 7px 10px; }
+    .window__dot { width: 8px; height: 8px; }
+    .scene__circuit { width: 78vw; opacity: 0.6; }
+    .scene__circuit--top { top: auto; bottom: 34%; }
+    .scene__net { -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 40%, transparent 85%); mask-image: linear-gradient(180deg, #000 0%, #000 40%, transparent 85%); }
+    .spec { padding: 0; gap: var(--sc-2); overflow-x: hidden; }
+    .spec__title { font-size: clamp(1.35rem, 6.4vw, 1.9rem); }
+    .spec__role { font-size: clamp(1.05rem, 4.6vw, 1.35rem); }
+    .spec__tag { margin-top: var(--sc-1); font-size: 0.68rem; }
+    .spec__ctas { gap: var(--sc-2); }
+    .hero__cta { min-height: 44px; padding: 0 var(--sc-4); }
+    .hero__cta--glow { font-size: var(--sc-t-base); }
+    .spec__status { margin-top: var(--sc-1); }
+    .log { padding: var(--sc-2) var(--sc-3) var(--sc-3); }
+    .log__label { flex-wrap: wrap; gap: var(--sc-2); letter-spacing: 0.04em; }
     .log__status { justify-items: start; }
     .log__date { display: none; }
-    .log__lines { font-size: var(--sc-t-xs); line-height: 1.7; }
-    /* Only the last lines fit above the CTAs on a phone. */
-    .log__line:nth-child(-n + 3) { display: none; }
-    .spec__ctas { padding: var(--sc-4) 0 0; }
-    .hero__cta { padding: 0 var(--sc-4); }
+    .log__lines { --lh: 1.6em; --rows: 3; }
   }
+
   @media (prefers-reduced-motion: reduce) {
+    .scene__glow, .hero__cta--glow, .spec__pulse, .window, .spec > * { animation: none; }
+    .trace__pulse { display: none; }
     .log__text { max-width: none; }
+    /* Nothing slides without motion: the window shows the last lines of the finished run. */
+    .log__line { transform: translate3d(0, calc(-1 * var(--lh) * (var(--count) - var(--rows))), 0); }
     .log__prompt { opacity: 1; }
-    .spec__pulse { animation: none; }
     .log__done { opacity: 1; }
   }
 </style>

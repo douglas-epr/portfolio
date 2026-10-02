@@ -15,7 +15,7 @@ export const chapters: Chapter[] = [
   { id: 'resume', title: 'Career', criterion: 'Career lists every role with dates from the 2026 CV' },
   { id: 'services', title: 'Services', criterion: 'Services name six things a client can hire' },
   { id: 'skills', title: 'Stack', criterion: 'Stack shows the tools grouped by what they do' },
-  { id: 'projects', title: 'Projects', criterion: 'Projects show ten products built for clients, with records' },
+  { id: 'projects', title: 'Projects', criterion: 'Projects show the main products built for clients, with records' },
   { id: 'testimonials', title: 'Clients', criterion: 'Clients quote six recommendations verbatim' },
   { id: 'tutorials', title: 'Teaching', criterion: 'Teaching embeds four tutorials on request' },
   { id: 'contact', title: 'Contact', criterion: 'Contact ends on a working message composer' },

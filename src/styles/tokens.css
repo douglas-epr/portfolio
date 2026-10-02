@@ -30,6 +30,13 @@
   --sc-r-lg: 6px;
 
   --nav-h: 56px;
+
+  /* Title page only: the control-room scene behind the avatar window. Channels
+     as RGB triplets so one token serves every alpha. */
+  --hero-ground: #12151b;
+  --hero-ink: #e8f1f8;
+  --hero-cyan-rgb: 124 200 228;
+  --hero-violet-rgb: 155 135 245;
 }
 
 /* Geist as display: medium-heavy, snug tracking, never above 2xl outside the hero. */

@@ -3,7 +3,7 @@ import type { Experience } from '@/types';
 export const experiences: Experience[] = [
   {
     id: 'move37',
-    role: 'Founding Engineer',
+    role: 'AI Product Builder',
     company: 'Move37',
     location: 'Remote',
     startDate: 'Jun 2026',
@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
   },
   {
     id: 'freelance',
-    role: 'Senior Bubble Developer & AI Product Engineer',
+    role: 'Senior Bubble Developer & AI Product Builder',
     company: 'Freelance / Independent',
     location: 'Remote',
     startDate: 'Jan 2022',

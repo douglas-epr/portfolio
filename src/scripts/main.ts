@@ -6,10 +6,14 @@ import { initContactForm } from './contact-form';
 import { initYouTube } from './youtube';
 import { initHeroScene } from './hero-scene';
 import { initStageFit } from './stage-fit';
+import { applyPhoneActs } from './phone-acts';
 
 function mountEngine(): void {
   window.ScrollCraft.mount(document.body);
 }
+
+// Before the engine collects its acts, so phones get the plain-scroll versions.
+applyPhoneActs();
 
 // Line boxes are measured after the faces load.
 document.fonts.ready.then(mountEngine, mountEngine);

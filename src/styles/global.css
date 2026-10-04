@@ -53,3 +53,9 @@ body:has(dialog[open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .text-link { transition: none; }
 }
+
+/* Phones: reveals are timed against a whole act's progress, and on a phone the long acts
+   stack many items, so mid-act items sit half-wiped while they are being read. Show them settled. */
+@media (max-width: 860px) {
+  #resume [data-sc-reveal], #projects [data-sc-reveal], #tutorials [data-sc-reveal] { clip-path: none !important; }
+}

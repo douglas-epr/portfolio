@@ -2,7 +2,7 @@
 import { services } from '@/data/services';
 ---
 
-<section id="services" data-sc-act="pin" data-sc-span="2.4" data-chapter-title="Services">
+<section id="services" data-sc-act="pin" data-sc-act-phone="flow" data-sc-span="2.4" data-chapter-title="Services">
   <div class="services" data-sc-stage data-stage-fit>
     <div class="sc-wrap services__grid" data-stage-fit-content>
       <header class="services__head">
@@ -80,4 +80,11 @@ import { services } from '@/data/services';
     .clause h3 { font-size: var(--sc-t-sm); }
     .clause p { margin-top: var(--sc-1); font-size: var(--sc-t-xs); line-height: 1.45; }
   }
+
+  /* Phones: a plain section (phone-acts.ts). No pin, no slide, every clause at full strength. */
+  #services[data-phone-flow] .services { padding: clamp(3rem, 9vw, 4rem) 0; }
+  #services[data-phone-flow] .services__grid { transform: none; }
+  #services[data-phone-flow] .clause, #services[data-phone-flow] .clause__num { opacity: 1; transform: none; }
+  #services[data-phone-flow] .services__head .sc-body { display: block; }
+  #services[data-phone-flow] .services__counter { display: none; }
 </style>

@@ -172,7 +172,7 @@ const traces = [
     box-shadow: 0 0 22px -4px rgb(var(--hero-cyan-rgb) / 0.55), 0 0 34px -6px rgb(var(--hero-violet-rgb) / 0.5);
     animation: cta-glow 3.6s ease-in-out infinite;
   }
-  .hero__cta--glow :global(svg) { transition: transform var(--sc-d-fast) var(--sc-ease-out); }
+  .hero__cta--glow :global(svg) { flex: none; transition: transform var(--sc-d-fast) var(--sc-ease-out); }
   .hero__cta--glow:hover, .hero__cta--glow:focus-visible { color: #fff; border-color: transparent; box-shadow: 0 0 30px -2px rgb(var(--hero-cyan-rgb) / 0.75), 0 0 48px -4px rgb(var(--hero-violet-rgb) / 0.7); }
   .hero__cta--glow:hover :global(svg), .hero__cta--glow:focus-visible :global(svg) { transform: translateX(4px); }
   @keyframes cta-glow { 50% { box-shadow: 0 0 28px -2px rgb(var(--hero-cyan-rgb) / 0.7), 0 0 44px -4px rgb(var(--hero-violet-rgb) / 0.65); } }
@@ -219,13 +219,17 @@ const traces = [
     .window__dot { width: 8px; height: 8px; }
     .scene__circuit { width: 78vw; opacity: 0.6; }
     .scene__circuit--top { top: auto; bottom: 34%; }
-    .scene__net { -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 40%, transparent 85%); mask-image: linear-gradient(180deg, #000 0%, #000 40%, transparent 85%); }
+    /* Nodes stay behind the avatar window and clear of the name. */
+    .scene__net { -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 28%, transparent 44%); mask-image: linear-gradient(180deg, #000 0%, #000 28%, transparent 44%); }
     .spec { padding: 0; gap: var(--sc-2); overflow-x: hidden; }
     .spec__title { font-size: clamp(1.35rem, 6.4vw, 1.9rem); }
     .spec__role { font-size: clamp(1.05rem, 4.6vw, 1.35rem); }
     .spec__tag { margin-top: var(--sc-1); font-size: 0.68rem; }
-    .spec__ctas { gap: var(--sc-2); }
-    .hero__cta { min-height: 44px; padding: 0 var(--sc-4); }
+    /* Both CTAs on one row: a second row pushes the build record off a short phone. */
+    .spec__ctas { gap: var(--sc-2); padding-left: 1.2rem; flex-wrap: nowrap; }
+    .spec__tag { padding-left: 1.2rem; }
+    .spec__tag::before { width: 0.8rem; }
+    .hero__cta { min-height: 44px; padding: 0 var(--sc-3); white-space: nowrap; font-size: 0.7rem; letter-spacing: 0.04em; }
     .hero__cta--glow { font-size: var(--sc-t-base); }
     .spec__status { margin-top: var(--sc-1); }
     .log { padding: var(--sc-2) var(--sc-3) var(--sc-3); }

@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
-    "astro": "astro"
+    "astro": "astro",
+    "check:mobile": "node scripts/check-mobile.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

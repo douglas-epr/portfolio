@@ -16,7 +16,7 @@ type IconName = keyof typeof icons;
 const iconFor = (name?: string) => (name && name in icons ? icons[name as IconName] : null);
 ---
 
-<section id="skills" data-sc-act="pan" data-sc-span="2.6" data-chapter-title="Stack">
+<section id="skills" data-sc-act="pan" data-sc-act-phone="flow" data-sc-span="2.6" data-chapter-title="Stack">
   <div class="stack" data-sc-stage>
     <div class="rail" data-sc-pan="0.05">
       <div class="rail__item rail__lead" style="--i: 0">
@@ -96,4 +96,10 @@ const iconFor = (name?: string) => (name && name in icons ? icons[name as IconNa
   @media (prefers-reduced-motion: reduce) {
     .rail { padding-block: var(--sc-7); }
   }
+
+  /* Phones: the rail stacks into a plain column (phone-acts.ts). Every card full width and full strength. */
+  #skills[data-phone-flow] .stack { padding: clamp(3rem, 9vw, 4rem) 0; }
+  #skills[data-phone-flow] .rail { display: flex; flex-direction: column; align-items: stretch; gap: var(--sc-4); }
+  #skills[data-phone-flow] .rail__item { width: auto; max-height: none; opacity: 1; transform: none; align-self: stretch; }
+  #skills[data-phone-flow] .rail__body { overflow: visible; }
 </style>

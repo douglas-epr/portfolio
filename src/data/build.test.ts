@@ -16,7 +16,7 @@ describe('build record', () => {
 
   test('counts come from the data modules', () => {
     expect(build.products).toBe(10);
-    expect(build.recommendations).toBe(6);
+    expect(build.recommendations).toBe(7);
     expect(build.chapters).toBe(chapters.length);
     expect(chapters.length).toBe(10);
   });

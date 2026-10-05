@@ -31,9 +31,9 @@ const LINKEDIN_PATH =
           </footer>
         </article>
       ))}
-      <div class="rail__item rail__end" style="--i: 7">
+      <div class="rail__item rail__end" style="--i: 8">
         <p class="mono">Verbatim. Names link to the source.</p>
-        <p class="sc-body">Written on LinkedIn between January 2023 and January 2026.</p>
+        <p class="sc-body">Written on LinkedIn between January 2023 and October 2026.</p>
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@ const LINKEDIN_PATH =
   .rail__end .mono { margin: 0; }
   .quote { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
   .quote__text { margin: 0; padding: var(--sc-4); overflow: auto; min-height: 0; }
-  .quote__text p { margin: 0; font-size: var(--sc-t-sm); line-height: 1.6; color: var(--ink); text-wrap: pretty; }
+  .quote__text p { margin: 0; font-size: var(--sc-t-sm); line-height: 1.6; color: var(--ink); text-wrap: pretty; white-space: pre-line; }
   .quote__by { display: grid; grid-template-columns: auto 1fr auto; gap: var(--sc-3); align-items: center; padding: var(--sc-3) var(--sc-4); border-top: 1px solid var(--hairline); }
   .quote__photo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
   .quote__name { margin: 0; font-size: var(--sc-t-sm); font-weight: 500; }
@@ -57,8 +57,8 @@ const LINKEDIN_PATH =
 
   @media (prefers-reduced-motion: no-preference) {
     .rail__item:not(.rail__lead) {
-      opacity: calc(0.55 + 0.45 * clamp(0, var(--sc-p, 1) * 8 - var(--i) + 1, 1));
-      transform: translate3d(0, calc((1 - clamp(0, var(--sc-p, 1) * 8 - var(--i) + 1, 1)) * 10px), 0);
+      opacity: calc(0.55 + 0.45 * clamp(0, var(--sc-p, 1) * 9 - var(--i) + 1, 1));
+      transform: translate3d(0, calc((1 - clamp(0, var(--sc-p, 1) * 9 - var(--i) + 1, 1)) * 10px), 0);
     }
   }
   .rail__item { --sc-p: inherit; }

@@ -5,6 +5,7 @@ import felipe from '@/assets/avatars/felipe-pedroni.jpg';
 import filippo from '@/assets/avatars/filippo-pavone.jpg';
 import pedro from '@/assets/avatars/pedro-duarte.jpg';
 import ranjit from '@/assets/avatars/ranjit-bhinge.jpg';
+import rich from '@/assets/avatars/rich-allen.jpg';
 
 // Quotes are the authors' own words and are kept verbatim.
 export const testimonials: Testimonial[] = [
@@ -67,5 +68,15 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     text: "Douglas worked with Blur Studio as a Bubble developer and Operations Manager. He played a crucial role in setting up processes for managing operations, executing on large projects and making sure we had meaningful checkpoints to manage each of them well. He was also instrumental in executing on several projects himself using tools like Bubble and Lovable to help founders create, validate and launch startups with web and mobile apps. He showed great promise and has constantly been pushing himself to learn, grow and improve his skills with nocode, AI and project management.",
     date: 'Jan 2026',
+  },
+  {
+    id: 't7',
+    author: 'Rich Allen',
+    company: 'Move37',
+    photo: rich,
+    linkedinUrl: 'https://www.linkedin.com/in/richard-allen-1aa5903b',
+    rating: 5,
+    text: "Douglas worked with us at Move37 from June to October 2026 as an AI Product Builder. His job was to take a brief for an application and turn it into working software, and he did that across several projects at once, often in quite different domains.\n\nHis biggest piece of work was our Accountancy Automation tool. He built it from scratch to a working MVP with bookkeeping, working papers and an email feature, all implemented securely. He also developed our Growth Machine, which set out how we'd run social content at scale.\n\nWhat stood out was his speed. He could take a brief, work out what it really needed and build it quickly. He tested his own work properly, so what he handed over did what it was meant to do. And where a brief had gaps, he thought it through and came back with better ideas rather than waiting to be told. He kept track of the work he did and provided regular updates on his progress.\n\nHe's easy going and easy to work with, and his enthusiasm for technology comes through in everything he builds. He understood the technical detail of his work inside out and was reliable on deadlines. I'd recommend him for demanding technical roles that involve building and shipping full-stack applications.",
+    date: 'Oct 2026',
   },
 ];
